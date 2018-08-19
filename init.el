@@ -11,6 +11,9 @@
 
 (package-initialize)
 
+(eval-when-compile
+  (require 'use-package))
+
 ;;;; FUNCTION DEFINITIONS.
 (defun my/use-eslint-from-node-modules ()
   "Use local eslint from node_modules before global."
@@ -45,10 +48,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       (setq deactivate-mark  t)
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*")) (abort-recursive-edit)))
 
-
-;;;; INITIALIZE
-(eval-when-compile
-  (require 'use-package))
 
 ;;;; BASIC
 (use-package helm
@@ -100,6 +99,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (setq multi-term-program "/bin/zsh"))
 
+(use-package restclient
+  :ensure t
+  :mode (("\\.http\\'" . restclient-mode)
+         ("\\.rest\\'" . restclient-mode))
+  :config
+  (setq outline-regexp "#[*\f]+"))
+
 ;;;; COMPANY
 (use-package company
   :ensure t
@@ -148,6 +154,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "-") 'dired-jump)
   (define-key evil-normal-state-map (kbd "ga") 'align-regexp)
   (define-key evil-normal-state-map (kbd "gt") 'other-frame)
+  (define-key evil-normal-state-map (kbd "C-w n") 'make-frame-command)
   (define-key evil-normal-state-map (kbd "C-w u") 'winner-undo)
   (define-key evil-normal-state-map (kbd "C-w C-r") 'winner-redo)
   (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)
@@ -155,7 +162,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-  (define-key evil-insert-state-map (kbd "C-s") 'yas-insert-snippet))
+  (define-key evil-insert-state-map (kbd "C-y") 'yas-insert-snippet))
 
 (use-package evil-collection
   :after (evil helm)
@@ -192,8 +199,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :config (evil-commentary-mode 1))
 
-
-
 ;;;; LANGUAGES.
 (use-package elixir-mode
   :ensure t)
@@ -223,14 +228,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :after js-mode
   :ensure t)
 
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
-
 (use-package irony
   :after company-irony
   :ensure t
@@ -241,12 +238,23 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package conf-mode
   :ensure t
-  :mode (("\\.env\\'" . conf-mode)))
-
+  :mode (("\\.env\\'" . conf-mode))
+  :config
+  (setq outline-regexp "[#\f]+")
+  (define-key evil-normal-state-map (kbd "TAB") 'org-cycle))
 
 ;;;; NOTE-TAKING
 (use-package pdf-tools
   :ensure t)
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown")
+  :config (setq outline-regexp "[#\f]+"))
 
 (use-package tex
   :ensure auctex
@@ -264,11 +272,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
                  '("my mupdf" ("mupdf" " %o" (mode-io-correlate " %(outpage)")))
                  (setcdr (assq 'output-pdf TeX-view-program-selection) '("my mupdf")))))
 
-(use-package restclient
-  :ensure t
-  :mode (("\\.http\\'" . restclient-mode)
-         ("\\.rest\\'" . restclient-mode)))
-
 ;;;; OTHER MODES
 (electric-pair-mode 1)
 (show-paren-mode 1)
@@ -278,6 +281,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (xterm-mouse-mode 1)
 (winner-mode 1)
 (outline-minor-mode)
+
+;;;; SETTING VARIABLES
+(setq backup-directory-alist '(("." . "~/.emacs.d/saves")))
+(setq backup-by-copying t)
+(setq auto-save-default nil)
+(setq create-lockfiles nil)
+(setq inhibit-startup-message t)
 (setq-default tab-width 4)
 (dolist (basic-offset '(c-basic-offset sh-basic-offset))
   (defvaralias basic-offset 'tab-width))
@@ -286,13 +296,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       '(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
         ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8))
       ispell-dictionary "es_ES")
-
-;;;; SETTING VARIABLES
-(setq backup-directory-alist '(("." . "~/.emacs.d/saves")))
-(setq backup-by-copying t)
-(setq auto-save-default nil)
-(setq create-lockfiles nil)
-(setq inhibit-startup-message t)
 
 (toggle-scroll-bar nil)
 (load-theme 'wpgtk t)
@@ -316,7 +319,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(magit-diff-section-arguments (quote ("--no-ext-diff")))
  '(package-selected-packages
    (quote
-    (pdf-tools company-anaconda multi-term yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile company-tern xclip use-package nlinum evil-commentary evil-collection json-mode rjsx-mode projectile web-mode helm-ag evil-surround smart-mode-line dtrt-indent 0blayout flycheck auto-org-md evil-magit magit js2-mode company-jedi racket-mode yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager company-go seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil elpy)))
+    (shell-mode pdf-tools company-anaconda multi-term yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile company-tern xclip use-package nlinum evil-commentary evil-collection json-mode rjsx-mode projectile web-mode helm-ag evil-surround smart-mode-line dtrt-indent 0blayout flycheck auto-org-md evil-magit magit js2-mode company-jedi racket-mode yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager company-go seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil elpy)))
  '(scroll-bar-mode nil)
  '(setq ansi-term-color-vector)
  '(tool-bar-mode nil))
