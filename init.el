@@ -200,6 +200,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config (evil-commentary-mode 1))
 
 ;;;; LANGUAGES.
+(use-package shell-mode
+  :ensure t)
+
 (use-package elixir-mode
   :ensure t)
 
@@ -319,7 +322,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(magit-diff-section-arguments (quote ("--no-ext-diff")))
  '(package-selected-packages
    (quote
-    (shell-mode pdf-tools company-anaconda multi-term yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile company-tern xclip use-package nlinum evil-commentary evil-collection json-mode rjsx-mode projectile web-mode helm-ag evil-surround smart-mode-line dtrt-indent 0blayout flycheck auto-org-md evil-magit magit js2-mode company-jedi racket-mode yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager company-go seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil elpy)))
+    (yasnippet async with-editor mmm-mode vue-html-mode ssass-mode edit-indirect vue-mode bind-key undo-tree tern tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional anaconda-mode auctex shell-mode pdf-tools company-anaconda multi-term yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile company-tern xclip use-package nlinum evil-commentary evil-collection json-mode rjsx-mode projectile web-mode helm-ag evil-surround smart-mode-line dtrt-indent 0blayout flycheck auto-org-md evil-magit magit js2-mode company-jedi racket-mode yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager company-go seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil elpy)))
  '(scroll-bar-mode nil)
  '(setq ansi-term-color-vector)
  '(tool-bar-mode nil))
