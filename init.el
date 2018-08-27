@@ -33,11 +33,18 @@
       (write-file (concat "/sudo:root@localhost:" (ido-read-file-name)))
     (write-file (concat "/sudo:root@localhost:" (buffer-file-name)))))
 
-(defun toggle-mouse-mode ()
-  "Toggle xterm mouse mode."
+(defun line-number-toggle ()
+  "Toggle line numbers based on Emacs version."
   (interactive)
-  (xterm-mouse-mode)
-  (xterm-mouse-mode))
+  (if (version<= "26.0.50" emacs-version)
+      (display-line-numbers-mode)
+    (nlinum-mode)))
+
+(define-globalized-minor-mode global-outline-minor-mode
+  outline-minor-mode outline-minor-mode)
+
+(define-globalized-minor-mode global-xterm-mouse-mode
+  xterm-mouse-mode xterm-mouse-mode)
 
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
