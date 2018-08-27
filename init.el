@@ -151,12 +151,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq flycheck-check-syntax-automatically '(mode-enabled save))
   (global-flycheck-mode 1))
 
-;;;; EVIL
+;;; EVIL
 (use-package evil
   :ensure t
-  :init (setq evil-want-integration nil)
   :config
   (evil-mode 1)
+  (define-key evil-normal-state-map (kbd "<f9>") 'magit-status)
   (define-key evil-insert-state-map (kbd "C-f") 'company-files)
   (define-key evil-normal-state-map (kbd "-") 'dired-jump)
   (define-key evil-normal-state-map (kbd "ga") 'align-regexp)
@@ -165,6 +165,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "C-w u") 'winner-undo)
   (define-key evil-normal-state-map (kbd "C-w C-r") 'winner-redo)
   (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)
+  (define-key evil-normal-state-map (kbd "<backtab>") 'org-global-cycle)
   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
