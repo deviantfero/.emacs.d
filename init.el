@@ -1,12 +1,12 @@
 ;;; package -- deviantfero's .init.el -*- lexical-binding: t; -*-
 ;;; Commentary:
-
-;;;; Code:
+;;; Code:
 (require 'package)
 (require 'mouse)
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(setq evil-want-integration nil)
 (setq-default org-agenda-file-regexp "~/org/.*.org$")
 
 (package-initialize)
