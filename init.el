@@ -80,15 +80,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (smart-mode-line-enable 1))
 
 (use-package magit
-  :bind (:map evil-normal-state-map
-              ("<f9>" . magit))
   :ensure t)
 
 (use-package nlinum
   :ensure t
   :config
   (setq nlinum-format "%3d  ")
-  (add-hook 'prog-mode-hook (lambda () (nlinum-mode 1))))
+  (add-hook 'prog-mode-hook 'line-number-toggle))
 
 (use-package dtrt-indent
   :ensure t
