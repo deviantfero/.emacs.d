@@ -249,7 +249,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq outline-regexp "[#\f]+")
   (define-key evil-normal-state-map (kbd "TAB") 'org-cycle))
 
-;;;; NOTE-TAKING
+(use-package sh-script
+  :config
+  (setq outline-regexp "[#\f]+"))
+
+;;; NOTE-TAKING
 (use-package pdf-tools
   :ensure t)
 
@@ -275,20 +279,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
     (add-hook 'LaTeX-mode-hook 'flyspell-mode)
     (add-to-list 'TeX-view-program-list
-                 '("my mupdf" ("mupdf" " %o" (mode-io-correlate " %(outpage)")))
-                 (setcdr (assq 'output-pdf TeX-view-program-selection) '("my mupdf")))))
+                 '("zathura viewer" ("zathura" " %o" (mode-io-correlate " %(outpage)")))
+                 (setcdr (assq 'output-pdf TeX-view-program-selection) '("zathura viewer")))))
 
-;;;; OTHER MODES
+;;; OTHER MODES
 (electric-pair-mode 1)
 (show-paren-mode 1)
 (menu-bar-mode -1)
 (toggle-tool-bar-mode-from-frame -1)
 (yas-global-mode 1)
-(xterm-mouse-mode 1)
 (winner-mode 1)
-(outline-minor-mode)
+(global-xterm-mouse-mode 1)
+(global-outline-minor-mode 1)
 
-;;;; SETTING VARIABLES
+;;; SETTING VARIABLES
 (setq backup-directory-alist '(("." . "~/.emacs.d/saves")))
 (setq backup-by-copying t)
 (setq auto-save-default nil)
