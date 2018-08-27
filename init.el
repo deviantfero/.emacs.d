@@ -14,7 +14,7 @@
 (eval-when-compile
   (require 'use-package))
 
-;;;; FUNCTION DEFINITIONS.
+;;; FUNCTION DEFINITIONS.
 (defun my/use-eslint-from-node-modules ()
   "Use local eslint from node_modules before global."
   (let* ((root (locate-dominating-file
@@ -56,7 +56,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*")) (abort-recursive-edit)))
 
 
-;;;; BASIC
+;;; BASIC
 (use-package helm
   :after (evil projectile)
   :ensure t
@@ -113,7 +113,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (setq outline-regexp "#[*\f]+"))
 
-;;;; COMPANY
+;;; COMPANY
 (use-package company
   :ensure t
   :init
@@ -206,10 +206,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :config (evil-commentary-mode 1))
 
-;;;; LANGUAGES.
-(use-package shell-mode
-  :ensure t)
-
+;;; LANGUAGES.
 (use-package elixir-mode
   :ensure t)
 
@@ -312,7 +309,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 
 
-;;;; AUTOMATICALLY GENERATED
+;;; AUTOMATICALLY GENERATED
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
