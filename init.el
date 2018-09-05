@@ -52,6 +52,37 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       (setq deactivate-mark  t)
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*")) (abort-recursive-edit)))
 
+;;; STATUS LINE
+(use-package smart-mode-line
+  :ensure t
+  :init
+  (setq sml/no-confirm-load-theme t)
+  :config
+  (setq sml/line-number-format "%4l")
+  (setq sml/name-width 70)
+  (setq sml/mode-width 'full)
+  (setq sml/no-confirm-load-theme t)
+  (setq sml/replacer-regexp-list
+        '(("^~/org/" ":Org:")
+          ("^~/.emacs.d/" ":Conf:")
+          ("^~/Code/" ":Code:")
+          ("^~/Code/git/" ":GIT:")))
+  (column-number-mode)
+  (smart-mode-line-enable 1))
+
+(use-package rich-minority
+  :ensure t
+  :config
+  (setq rm-blacklist
+        '(" Undo-Tree"
+          " Helm"
+          " yas"
+          " company"))
+  (setq rm-text-properties
+        '(("\\` dtrt-indent\\'" 'display " >>")
+          ("\\` Outl\\'"   'display " O")))
+  (sml/setup))
+
 
 ;;; BASIC
 (use-package helm
