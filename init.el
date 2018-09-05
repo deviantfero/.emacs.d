@@ -43,9 +43,6 @@
 (define-globalized-minor-mode global-outline-minor-mode
   outline-minor-mode outline-minor-mode)
 
-(define-globalized-minor-mode global-xterm-mouse-mode
-  xterm-mouse-mode xterm-mouse-mode)
-
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
 In Delete Selection mode, if the mark is active, just deactivate it;
@@ -67,26 +64,30 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	      ("C-o" . helm-buffers-list)
 	      :map helm-map
 	      ("TAB" . helm-execute-persistent-action)
-              :map global-map
-              ("M-x" . helm-M-x))
+          :map global-map
+          ("M-x" . helm-M-x))
   :config (helm-mode 1))
 
-(use-package smart-mode-line
-  :ensure t
-  :init
-  (setq sml/no-confirm-load-theme t)
-  :config
-  (column-number-mode)
-  (smart-mode-line-enable 1))
+(use-package helm-projectile
+  :after (helm)
+  :ensure t)
+
+(use-package helm-ag
+  :after (helm)
+  :ensure t)
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :after evil
+  :bind (:map evil-normal-state-map
+              ("<f9>" . magit-status)))
 
 (use-package nlinum
   :ensure t
   :config
   (setq nlinum-format "%3d  ")
-  (add-hook 'prog-mode-hook 'line-number-toggle))
+  (add-hook 'prog-mode-hook 'line-number-toggle)
+  (add-hook 'prog-mode-hook 'xterm-mouse-mode))
 
 (use-package dtrt-indent
   :ensure t
