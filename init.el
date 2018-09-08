@@ -199,6 +199,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :config
   (evil-mode 1)
+  (setq evil-mode-line-format '(before . mode-line-front-space))
   (define-key evil-normal-state-map (kbd "<f5>") 'compile)
   (define-key evil-normal-state-map (kbd "-") 'dired-jump)
   (define-key evil-normal-state-map (kbd "ga") 'align-regexp)
