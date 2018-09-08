@@ -62,11 +62,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq sml/name-width 70)
   (setq sml/mode-width 'full)
   (setq sml/no-confirm-load-theme t)
-  (setq sml/replacer-regexp-list
-        '(("^~/org/" ":Org:")
-          ("^~/.emacs.d/" ":Conf:")
-          ("^~/Code/" ":Code:")
-          ("^~/Code/git/" ":GIT:")))
   (column-number-mode)
   (smart-mode-line-enable 1))
 
