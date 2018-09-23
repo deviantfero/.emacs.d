@@ -6,3 +6,4 @@ elpa/
 auto-save-list/
 .python-environments/
 irony/
+/anaconda-mode
