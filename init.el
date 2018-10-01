@@ -58,39 +58,47 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       (setq deactivate-mark  t)
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*")) (abort-recursive-edit)))
 
+;;; ORG MODE
+(use-package org
+  :ensure t
+  :mode ("\\.org\\'" . org-mode)
+  :bind (("C-c a" . org-agenda))
+  :config
+  (setq org-agenda-files
+        (directory-files-recursively "~/org/" "\.org$"))
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((python . t)
+                               (ruby . t)
+                               (js .t)
+                               (C . t))))
+(use-package org-bullets
+  :ensure t
+  :after org
+  :hook (org-mode . org-bullets-mode))
+
 ;;; STATUS LINE
+(use-package minions
+  :ensure t
+  :config (minions-mode 1))
+
 (use-package smart-mode-line
   :ensure t
   :init
   (setq sml/no-confirm-load-theme t)
   :config
   (setq sml/line-number-format "%4l")
-  (setq sml/name-width 70)
+  (setq sml/name-width 40)
   (setq sml/mode-width 'full)
   (setq sml/no-confirm-load-theme t)
   (column-number-mode)
   (smart-mode-line-enable 1))
-
-(use-package rich-minority
-  :ensure t
-  :config
-  (setq rm-blacklist
-        '(" Undo-Tree"
-          " Helm"
-          " yas"
-          " company"))
-  (setq rm-text-properties
-        '(("\\` dtrt-indent\\'" 'display " >>")
-          ("\\` Outl\\'"   'display " O")))
-  (sml/setup))
-
 
 ;;; BASIC
 (use-package helm
   :after (evil projectile)
   :ensure t
   :bind (:map evil-normal-state-map
-	      ("K" . helm-do-ag)
+	      ("M-k" . helm-do-ag)
 	      ("C-g" . helm-projectile)
 	      ("C-f" . helm-find-files)
 	      ("C-o" . helm-buffers-list)
