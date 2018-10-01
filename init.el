@@ -106,7 +106,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	      ("TAB" . helm-execute-persistent-action)
           :map global-map
           ("M-x" . helm-M-x))
-  :config (helm-mode 1))
+  :config
+  (helm-mode 1)
+  (setq helm-mode-fuzzy-match t)
+  (setq helm-completion-in-region-fuzzy-match t))
 
 (use-package helm-projectile
   :after (helm)
