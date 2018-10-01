@@ -39,6 +39,13 @@
       (display-line-numbers-mode)
     (nlinum-mode)))
 
+(defun my/multi-term ()
+  "Opens a terminal in current projectile root or in current dir."
+  (interactive)
+  (if (projectile-project-p)
+	(cd (projectile-project-root)))
+  (multi-term))
+
 (define-globalized-minor-mode global-outline-minor-mode
   outline-minor-mode outline-minor-mode)
 
