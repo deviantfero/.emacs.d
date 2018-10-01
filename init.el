@@ -282,31 +282,26 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t)
 
 (use-package anaconda-mode
-  :ensure t)
+  :ensure t
+  :hook (python-mode . anaconda-mode))
 
 (use-package cmake-mode
   :ensure t)
 
-(use-package alchemist
-  :after elixir-mode
-  :ensure t
-  :config
-  (add-to-list 'company-backends 'alchemist-company))
 
 (use-package js2-mode
   :ensure t
   :init
   (setq js2-mode-show-strict-warnings nil)
-  (setq js2-mode-show-parse-errors 1)
-  :config
-  (add-hook 'js2-mode-hook 'my/use-eslint-from-node-modules)
-  (add-hook 'js2-mode-hook 'tern-mode))
+  (setq js2-mode-show-parse-errors 1))
 
 (use-package rjsx-mode
   :after js2-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode)))
+  :mode "\\.js\\'"
+  :ensure t)
+
+(use-package json-mode
+  :ensure t)
 
 (use-package vue-mode
   :after js-mode
