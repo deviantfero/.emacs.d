@@ -161,6 +161,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (yas-global-mode 1))
 
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode 1))
+
 ;;; COMPANY
 (use-package company
   :ensure t
