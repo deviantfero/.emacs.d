@@ -116,10 +116,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package nlinum
   :ensure t
+  :hook
+  (prog-mode . line-number-toggle)
+  (prog-mode . xterm-mouse-mode)
   :config
-  (setq nlinum-format "%3d  ")
-  (add-hook 'prog-mode-hook 'line-number-toggle)
-  (add-hook 'prog-mode-hook 'xterm-mouse-mode))
+  (setq nlinum-format "%3d  "))
 
 (use-package dtrt-indent
   :ensure t
@@ -168,25 +169,40 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (global-company-mode 1))
 
 (use-package company-anaconda
-  :after anaconda-mode
   :ensure t
-  :config
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-to-list 'company-backends 'company-anaconda))
+  :hook
+  (python-mode . (lambda () (add-to-list 'company-backends 'company-anaconda))))
 
-(use-package company-tern
-  :after (js2-mode rjsx-mode)
+(use-package tide
   :ensure t
-  :config
-  (add-to-list 'company-backends 'company-tern))
+  :hook ((js2-mode . tide-setup)
+         (js2-mode . tide-hl-identifier-mode)
+         (js2-mode . my/use-eslint-from-node-modules)))
 
 (use-package company-irony
   :ensure t
   :after irony
-  :config
-  (add-to-list 'company-backends 'company-irony)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+  :hook
+  (irony-mode . (lambda () (add-to-list 'company-backends 'company-irony)))
+  (irony-mode . irony-cdb-autosetup-compile-options))
 
+(use-package alchemist
+  :ensure t
+  :hook
+  (elixir-mode . (lambda () (add-to-list 'company-backends 'alchemist-company))))
+
+(use-package company-web
+  :ensure t
+  :hook
+  (mhtml-mode . (lambda () (add-to-list 'company-backends 'company-web-html))))
+
+(use-package company-restclient
+  :ensure t
+  :hook
+  (restclient-mode . (lambda () (add-to-list 'company-backends 'company-restclient))))
+
+
+;;; FLYCHECK
 (use-package flycheck
   :ensure t
   :init
@@ -200,13 +216,23 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :after (flycheck)
   :ensure t)
 
-;;; EVIL
-(use-package evil
+(use-package flycheck-irony
+  :after (flycheck company-irony)
   :ensure t
   :config
-  (evil-mode 1)
+  (flycheck-irony-setup))
+
+;;; EVIL
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  :ensure t
+  :config
   (setq evil-mode-line-format '(before . mode-line-front-space))
+  (evil-mode 1)
   (define-key evil-normal-state-map (kbd "<f5>") 'compile)
+  (define-key evil-normal-state-map (kbd "<f7>") 'my/multi-term)
   (define-key evil-normal-state-map (kbd "-") 'dired-jump)
   (define-key evil-normal-state-map (kbd "ga") 'align-regexp)
   (define-key evil-normal-state-map (kbd "gt") 'other-frame)
@@ -229,12 +255,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package evil-org
   :ensure t
-  :after org
+  :after (evil org)
+  :hook
+  (org-mode . evil-org-mode)
+  (evil-org-mode . (lambda () (evil-org-set-key-theme)))
   :config
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
@@ -289,9 +314,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package irony
   :ensure t
-  :config
-  (dolist (hook '(c++-mode-hook c-mode-hook objc-mode-hook))
-    (add-hook hook 'irony-mode)))
+  :hook
+  (c++-mode . irony-mode)
+  (c-mode . irony-mode)
+  (objc-mode . irony-mode))
 
 (use-package conf-mode
   :ensure t
