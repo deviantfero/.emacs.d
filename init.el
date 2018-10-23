@@ -46,9 +46,6 @@
 	(cd (projectile-project-root)))
   (multi-term))
 
-(define-globalized-minor-mode global-outline-minor-mode
-  outline-minor-mode outline-minor-mode)
-
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
 In Delete Selection mode, if the mark is active, just deactivate it;
@@ -147,20 +144,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :config (xclip-mode 1))
 
-(use-package projectile
-  :ensure t)
-
 (use-package multi-term
   :ensure t
   :config
   (setq multi-term-program "/bin/zsh"))
-
-(use-package restclient
-  :ensure t
-  :mode (("\\.http\\'" . restclient-mode)
-         ("\\.rest\\'" . restclient-mode))
-  :config
-  (setq outline-regexp "#[*\f]+"))
 
 (use-package yasnippet
   :ensure t
