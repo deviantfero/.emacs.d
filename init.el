@@ -98,33 +98,43 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;; BASIC
 (use-package helm
-  :after (evil projectile)
+  :after evil
   :ensure t
   :bind (:map evil-normal-state-map
-	      ("M-k" . helm-do-ag)
-	      ("C-g" . helm-projectile)
-	      ("C-f" . helm-find-files)
-	      ("C-o" . helm-buffers-list)
-	      :map helm-map
-	      ("TAB" . helm-execute-persistent-action)
-          :map global-map
-          ("M-x" . helm-M-x))
+              ("M-k" . helm-do-ag)
+              ("C-f" . helm-find-files)
+              ("C-o" . helm-buffers-list)
+              :map helm-map
+              ("TAB" . helm-execute-persistent-action)
+              :map global-map
+              ("M-x" . helm-M-x))
   :config
   (helm-mode 1)
   (setq helm-mode-fuzzy-match t)
   (setq helm-completion-in-region-fuzzy-match t))
 
+
+(use-package projectile
+  :after helm
+  :ensure t
+  :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map)
+              :map evil-normal-state-map
+              ("C-g" . helm-projectile))
+  :config
+  (projectile-mode +1))
+
 (use-package helm-projectile
-  :after (helm)
+  :after projectile
   :ensure t)
 
 (use-package helm-ag
-  :after (helm)
+  :after helm
   :ensure t)
 
 (use-package magit
-  :ensure t
   :after evil
+  :ensure t
   :bind (:map evil-normal-state-map
               ("<f9>" . magit-status)))
 
