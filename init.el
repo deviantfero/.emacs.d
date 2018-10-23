@@ -310,7 +310,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package cmake-mode
   :ensure t)
 
-
 (use-package js2-mode
   :ensure t
   :init
