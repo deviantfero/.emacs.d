@@ -58,19 +58,25 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       (setq deactivate-mark  t)
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*")) (abort-recursive-edit)))
 
+(define-globalized-minor-mode global-outline-minor-mode
+  outline-minor-mode outline-minor-mode)
+
+
 ;;; ORG MODE
 (use-package org
   :ensure t
   :mode ("\\.org\\'" . org-mode)
   :bind (("C-c a" . org-agenda))
+  :hook (org-mode . visual-line-mode)
   :config
   (setq org-agenda-files
         (directory-files-recursively "~/org/" "\.org$"))
   (org-babel-do-load-languages
    'org-babel-load-languages '((python . t)
                                (ruby . t)
-                               (js .t)
-                               (C . t))))
+                               (js . t)
+                               (C . t)
+                               (haskell . t))))
 (use-package org-bullets
   :ensure t
   :after org
