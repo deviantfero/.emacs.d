@@ -223,6 +223,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :hook
   (restclient-mode . (lambda () (add-to-list 'company-backends 'company-restclient))))
 
+(use-package intero
+  :ensure t
+  :hook
+  (haskell-mode . intero-mode))
+
 
 ;;; FLYCHECK
 (use-package flycheck
@@ -300,6 +305,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config (evil-commentary-mode 1))
 
 ;;; LANGUAGES.
+(use-package restclient
+  :ensure t
+  :mode (("\\.http\\'" . restclient-mode)
+         ("\\.rest\\'" . restclient-mode))
+  :config
+  (setq outline-regexp "#[*\f]+"))
+
+(use-package haskell-mode
+  :ensure t)
+
 (use-package elixir-mode
   :ensure t)
 
