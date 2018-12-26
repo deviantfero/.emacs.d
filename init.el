@@ -168,6 +168,17 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (which-key-mode 1))
 
+(use-package tramp
+  :defer 5
+  :config
+  (with-eval-after-load 'tramp-cache
+    (setq tramp-persistency-file-name "~/.emacs.d/tramp"))
+  (setenv "SHELL" "/bin/bash")
+  (setq projectile-mode-line "Projectile")
+  (setq tramp-use-ssh-controlmaster-options nil)
+  (setf tramp-persistency-file-name
+        (concat temporary-file-directory "tramp-" (user-login-name))))
+
 ;;; COMPANY
 (use-package company
   :ensure t
