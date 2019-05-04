@@ -13,6 +13,38 @@
 (eval-when-compile
   (require 'use-package))
 
+(define-globalized-minor-mode global-outline-minor-mode
+  outline-minor-mode outline-minor-mode)
+
+(column-number-mode 1)
+(show-paren-mode 1)
+(menu-bar-mode -1)
+(toggle-tool-bar-mode-from-frame -1)
+(winner-mode 1)
+(global-outline-minor-mode 1)
+(add-hook 'focus-out-hook #'garbage-collect)
+
+(setq-default
+ backup-directory-alist '(("." . "~/.emacs.d/saves"))
+ backup-by-copying t
+ auto-save-default nil
+ create-lockfiles nil
+ inhibit-startup-message t
+ tab-width 4
+ blink-matching-paren nil
+ toggle-scroll-bar nil
+ ispell-program-name (executable-find "hunspell")
+ ispell-dictionary "es_ES")
+
+(setq-default ispell-local-dictionary-alist
+      '(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
+        ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
+(dolist (basic-offset '(c-basic-offset sh-basic-offset))
+  (defvaralias basic-offset 'tab-width))
+
+
+(load-theme 'wpgtk t)
+
 ;;; FUNCTION DEFINITIONS.
 (defun my/use-eslint-from-node-modules ()
   "Use local eslint from node_modules before global."
@@ -446,31 +478,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :after org
   :ensure t)
 
-;;; OTHER MODES
-(column-number-mode 1)
-(show-paren-mode 1)
-(menu-bar-mode -1)
-(toggle-tool-bar-mode-from-frame -1)
-(winner-mode 1)
-(global-outline-minor-mode 1)
-
-;;; SETTING VARIABLES
-(setq backup-directory-alist '(("." . "~/.emacs.d/saves")))
-(setq backup-by-copying t)
-(setq auto-save-default nil)
-(setq create-lockfiles nil)
-(setq inhibit-startup-message t)
-(setq-default tab-width 4)
-(dolist (basic-offset '(c-basic-offset sh-basic-offset))
-  (defvaralias basic-offset 'tab-width))
-(setq ispell-program-name (executable-find "hunspell")
-      ispell-local-dictionary-alist
-      '(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
-        ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8))
-      ispell-dictionary "es_ES")
-(setq blink-matching-paren nil)
-(toggle-scroll-bar nil)
-(load-theme 'wpgtk t)
 
 ;;; AUTOMATICALLY GENERATED
 (custom-set-variables
