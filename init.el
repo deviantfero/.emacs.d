@@ -295,11 +295,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package flow-minor-mode
   :ensure t
-  :hook (js-mode . flow-minor-enable-automatically))
-
-(use-package flow-js2-mode
-  :load-path "./modes/"
-  :hook (flow-minor-mode . flow-js2-mode))
+  :hook (web-mode . flow-minor-enable-automatically))
 
 (use-package elpy
   :ensure t
