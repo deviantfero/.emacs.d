@@ -2,7 +2,6 @@
 
 ;;; Commentary:
 ;;; Code:
-
 (require 'package)
 (require 'mouse)
 (require 'dired-x)
@@ -382,10 +381,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :hook
   (go-mode . (lambda () (add-to-list 'company-backends 'company-go))))
 
-(use-package intero
-  :ensure t
-  :hook
-  (haskell-mode . intero-mode))
 
 ;;; FLYCHECK
 (use-package flycheck
