@@ -385,13 +385,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (global-company-mode 1))
 
 (use-package tide
-  :ensure t
-  :hook ((js-mode . tide-setup)
-         (js-mode . tide-hl-identifier-mode)
-         (js-mode . my/use-eslint-from-node-modules)
-         (js2-mode . tide-setup)
-         (js2-mode . tide-hl-identifier-mode)
-         (js2-mode . my/use-eslint-from-node-modules)))
+  :hook (web-mode . my/activate-tide-mode)
+  :ensure t)
 
 (use-package company-irony
   :ensure t
