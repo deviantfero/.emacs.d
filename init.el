@@ -326,12 +326,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package cmake-mode
   :ensure t)
 
-(use-package rjsx-mode
-  :after js2-mode
-  :mode "\\.js\\'"
-  :interpreter "node"
-  :ensure t)
-
 (use-package indium
   :ensure t
   :config
