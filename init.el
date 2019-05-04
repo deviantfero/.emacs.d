@@ -355,6 +355,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq outline-regexp "[#\f]+")
   (define-key evil-normal-state-map (kbd "TAB") 'org-cycle))
 
+(use-package dockerfile-mode
+  :ensure t
+  :mode ("Dockerfile\\'" . dockerfile-mode))
+
 (use-package sh-script
   :config
   (setq outline-regexp "[#\f]+"))
