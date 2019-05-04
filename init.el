@@ -362,10 +362,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package yaml-mode
   :ensure t)
 
-(use-package grammar-mode
-  :load-path "./modes/"
-  :mode "\\.grm\\'" )
-
 ;;; COMPANY
 (use-package company
   :ensure t
