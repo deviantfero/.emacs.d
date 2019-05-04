@@ -94,73 +94,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       (setq deactivate-mark  t)
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*")) (abort-recursive-edit)))
 
-(define-globalized-minor-mode global-outline-minor-mode
-  outline-minor-mode outline-minor-mode)
-
-;;; ORG MODE
-(use-package org
-  :ensure t
-  :mode ("\\.org\\'" . org-mode)
-  :bind (("C-c a" . org-agenda))
-  :hook (org-mode . visual-line-mode)
-  :config
-  (setq org-agenda-files
-        (directory-files-recursively "~/org/" "\.org$"))
-  (org-babel-do-load-languages
-   'org-babel-load-languages '((python . t)
-                               (ruby . t)
-                               (js . t)
-                               (C . t)
-                               (haskell . t))))
-
-(use-package org-bullets
-  :ensure t
-  :after org
-  :hook (org-mode . org-bullets-mode))
-
-;;; STATUS LINE
-(use-package minions
-  :ensure t
-  :config (minions-mode 1))
-
-;;; HELM
-(use-package helm
-  :after evil
-  :ensure t
-  :bind (:map evil-normal-state-map
-              ("M-k" . helm-do-ag)
-              ("C-f" . helm-find-files)
-              ("C-o" . helm-buffers-list)
-              :map helm-map
-              ("TAB" . helm-execute-persistent-action)
-              :map global-map
-              ("M-x" . helm-M-x))
-  :config
-  (helm-mode 1)
-  (setq helm-mode-fuzzy-match t)
-  (setq helm-completion-in-region-fuzzy-match t))
-
-(use-package helm-ag
-  :ensure t)
-
-(use-package helm-projectile
-  :ensure t
-  :after projectile)
 
 ;;; BASIC
 (use-package highlight-numbers
   :ensure t
-  :config (highlight-numbers-mode 1))
+  :hook (prog-mode . highlight-numbers-mode))
 
 (use-package projectile
-  :after (evil helm)
   :ensure t
   :bind (:map projectile-mode-map
-              ("C-c p" . projectile-command-map)
-              :map evil-normal-state-map
-              ("C-g" . helm-projectile))
+              ("C-c p" . projectile-command-map))
   :config
-  (projectile-mode +1))
+  (projectile-mode))
 
 (use-package magit
   :after evil
@@ -201,13 +146,46 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (which-key-mode 1))
 
+;;; STATUS LINE
+(use-package minions
+  :ensure t
+  :config (minions-mode 1))
+
+;;; ORG MODE
+(use-package org
+  :ensure t
+  :mode ("\\.org\\'" . org-mode)
+  :bind (("C-c a" . org-agenda))
+  :hook (org-mode . visual-line-mode)
+  :config
+  (setq org-agenda-files
+        (directory-files-recursively "~/org/" "\.org$"))
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((shell . t)
+                               (python . t)
+                               (ruby . t)
+                               (C . t)
+                               (haskell . t)))
+  (add-to-list 'org-export-backends 'taskjuggler))
+
+(use-package org-bullets
+  :ensure t
+  :after org
+  :config (setq org-bullets-bullet-list '("*" "○" "◆" "•"))
+  :hook (org-mode . org-bullets-mode))
+
+
+;;; TRAMP
+(use-package docker-tramp
+  :ensure t)
+
 (use-package tramp
   :defer 5
   :config
   (with-eval-after-load 'tramp-cache
     (setq tramp-persistency-file-name "~/.emacs.d/tramp"))
   (setenv "SHELL" "/bin/bash")
-  (setq projectile-mode-line "Projectile")
+  (setq-default projectile-mode-line "Projectile")
   (setq tramp-use-ssh-controlmaster-options nil)
   (setf tramp-persistency-file-name
         (concat temporary-file-directory "tramp-" (user-login-name))))
@@ -270,22 +248,51 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :config (global-evil-visualstar-mode))
 
+;;; HELM
+(use-package helm
+  :after evil
+  :ensure t
+  :bind (:map evil-normal-state-map
+              ("M-k" . helm-do-ag)
+              ("C-f" . helm-find-files)
+              ("C-o" . helm-buffers-list)
+              :map helm-map
+              ("TAB" . helm-execute-persistent-action)
+              :map global-map
+              ("M-x" . helm-M-x))
+  :config
+  (helm-mode 1)
+  (setq helm-mode-fuzzy-match t)
+  (setq helm-split-window-default-side 'same)
+  (setq helm-full-frame nil)
+  (setq helm-completion-in-region-fuzzy-match t))
+
+(use-package helm-ag
+  :ensure t)
+
+(use-package helm-projectile
+  :after evil
+  :ensure t
+  :bind (:map evil-normal-state-map
+              ("C-g" . helm-projectile))
+  :config
+  (helm-projectile-on))
+
 ;;; LANGUAGES.
 (use-package web-mode
   :ensure t
-  :mode (("\\.ejs\\'" . web-mode)
-         ("\\.json\\'" . web-mode))
+  :mode ("\\.ejs\\'" "\\.html\\'" "\\.[jt]sx?\\'")
   :config
-  (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+  (setq web-mode-content-types-alist '(("jsx" . "\\.[jt]sx?\\'")))
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
-  (setq web-mode-enable-auto-pairing t)
-  (setq web-mode-enable-auto-closing t)
-  (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-script-padding 2)
   (setq web-mode-block-padding 2)
   (setq web-mode-style-padding 2))
+  (setq web-mode-enable-auto-pairing t)
+  (setq web-mode-enable-auto-closing t)
+  (setq web-mode-enable-current-element-highlight t)
 
 (use-package js2-mode
   :ensure t
