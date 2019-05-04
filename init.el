@@ -25,6 +25,13 @@
     (when (and eslint (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint))))
 
+(defun my/activate-tide-mode ()
+  "Use hl-identifier-mode only on js or ts buffers."
+  (when (and (stringp buffer-file-name)
+             (string-match "\\.[tj]sx?\\'" buffer-file-name))
+    (tide-setup)
+    (tide-hl-identifier-mode)))
+
 (defun sudo-write ()
   "Use TRAMP to open a file with write access using sudo."
   (interactive)
