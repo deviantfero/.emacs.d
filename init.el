@@ -343,7 +343,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :hook
   (c++-mode . irony-mode)
   (c-mode . irony-mode)
-  (objc-mode . irony-mode))
+  (objc-mode . irony-mode)
+  :config
+  (add-to-list 'irony-supported-major-modes 'jison-mode)
+  (add-to-list 'irony-supported-major-modes 'bison-mode))
 
 (use-package conf-mode
   :ensure t
@@ -361,6 +364,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq outline-regexp "[#\f]+"))
 
 (use-package yaml-mode
+  :ensure t)
+
+(use-package bison-mode
   :ensure t)
 
 ;;; COMPANY
@@ -484,7 +490,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
    ["#080808" "#d70000" "#67b11d" "#875f00" "#268bd2" "#af00df" "#00ffff" "#b2b2b2"])
  '(custom-safe-themes
    (quote
-    ("14a4bbd2207617728ea504ea9aa48416999a456db9f10e7d74baab896301d8a3" "543810bda3d88d3172bea79fd4c1446a0f3f7bf2027fb3433283f00c1771b915" "433d465598b5e87b7be36a8b5abc426b056b6b2003e9730af9e4dd93f32a852d" "bb79e50c08c4892a8f4590bb7407de8cfab0dd58be50da6580decb9a28b40ce9" "0c4b0a603732e4fa03d08d44b779267a085161ec97924a0dcaa633484563923f" "1b21a3c27955fc9bcd6d0788fe229c6f33414adda263a15e9382595af4464666" "92b581ca44ae189ae308feb1387634e8798c8f893e0600fc191fe2ddbff0a709" "d3c2c0cdd152897c69597b802b053315531745a5de7415a84b70aca0acf5bd50" "28490858748e0d2ae3d87c8830ec06fc1c4b412939d43d8fe684201550c52741" "12f13ab77ae93adf97039bc8c3f5719eb77b9d9da916374b7c448f2bf176fba6" "7c3baae1d43dee474e1f542a96d2aa65b430338165d5dc5da2e8bffb9e053b4b" "af74d38925129f8be585f85bba5d18fa594ad8ca366a8c892dec6ea615d05be8" "e53f26bf4e436383b3f1015ce0fc73f6049e56594ba754f1fc249b5a24bec277" "c291db4bf2f189ef64314929fcf8df55b3d0b7d05892ba68650d7ae122e2e06d" "b33d7b8560d95aadd7143a06594a960888efff2c755d8fd02a2bd89e097ec81f" "f94b10ce2d675be8406b65d65a5f6e5998abe11a2d3bf41a23ca89e119069598" "6e3e4c96c9badf05266e793f3f33d22d8baeb01762303005c95e954424d3d3b1" "4c6daa4c9ad1239dff90e0d7a5c52ce1304c2a8217c1d89163f1f058537a2728" "ee999c5423403471d1cc197419cace81baa37f4c437fde5cdc68161455411322" "1135c68d913bc0c1c495d61e958782ebccbcfcfd25e9c56f768a739c1359013b" "700a92223ceb4af47e26adf31a2efdf1d282d77b3eadbf11cdbc1b23d9025405" "3d272799b73437e219fb840a7fb9df7df086a5e327694106a6866e6020737e22" "e0a1a9823d9ec86057e258d60c68218b0e6b31f4e197d56554140bdd5d9caa71" "50bda9f8157e84caa7a2edcfae789f090682113e919bd6790d02dc797427c9df" "3791210eaf10dd3cfb5a6fe595b7825750b7bc0ece71f15d8fdf49090c18aa7b" "b04e98efb80c08473b6687253a9f97669fbf0f63f34f2ad51cca77cc6a1756a0" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "d56ab147037efedd59e62451ca370b6d6573f10a07c0114d376d1a1a32563491" "696c7ad6e700206aa3d86a2555e90283f47c521d9188439804cf1a85a0aec758" "78d54007f52f745bb55e95f91390c4b947af59f777e1cd3cbe88204590ae25a0" "2c95cd2a529def31d6a67f87f4a03e967d330be6cb818ef94c068ff4708230db" "325c152851c1038848c4cb04dfa5184f46023d749aafaa7109b9289516831199" "c304e593666ca09232b1b4785876a03415efe834f7cc9af8f3afb6fd43c5ad33" "676fc0d75e7e9f54260c10e388cb925b4ce554fbc93b25da86ad6db47547bed7" "8acff68bb168fa0f5c3d09a4bf338ed8fec9ee464cc6e1cefef441a171a6381b" "6ca2c4437d37cea1cb151749c3585d1ea29fd483b831f7013beeac90081101c2" "07839198ca42eaaa51a28432cb8658ec5fbadbd8a6e6da231f116f7841fee0cb" "51517dac0b5f6b9839b8c2e01e07ada1c9c2440de21eb1fa534718f9aaf13f19" "4fdd3bae4ef37b5b67dccc91557bf069a8ba804723f49b462d69e5a64e298dee" "1caa46cdd3573072d3ac92a2c21474c2e1dad65de9b6d0c7ede64c79e9879f1a" "0d4da8e06207a8ac31c6e8335bcf1481f44f9eb30c065649ae8a9d46803f10ea" "b13ffeb4813ebc7b964dcc39b7c0d77704005acbaf1fcb4ca42e9bb942c82b7a" "ac2ce00fab91c5799e8289dc6be38696efcbf4489eab689e7debfc3e8e3ecc93" "bb6ce5371e43d4fefc4613af95fb2bdca1846c8475df1ee6e5fc520f930a2150")))
+	("14a4bbd2207617728ea504ea9aa48416999a456db9f10e7d74baab896301d8a3" "543810bda3d88d3172bea79fd4c1446a0f3f7bf2027fb3433283f00c1771b915" "433d465598b5e87b7be36a8b5abc426b056b6b2003e9730af9e4dd93f32a852d" "bb79e50c08c4892a8f4590bb7407de8cfab0dd58be50da6580decb9a28b40ce9" "0c4b0a603732e4fa03d08d44b779267a085161ec97924a0dcaa633484563923f" "1b21a3c27955fc9bcd6d0788fe229c6f33414adda263a15e9382595af4464666" "92b581ca44ae189ae308feb1387634e8798c8f893e0600fc191fe2ddbff0a709" "d3c2c0cdd152897c69597b802b053315531745a5de7415a84b70aca0acf5bd50" "28490858748e0d2ae3d87c8830ec06fc1c4b412939d43d8fe684201550c52741" "12f13ab77ae93adf97039bc8c3f5719eb77b9d9da916374b7c448f2bf176fba6" "7c3baae1d43dee474e1f542a96d2aa65b430338165d5dc5da2e8bffb9e053b4b" "af74d38925129f8be585f85bba5d18fa594ad8ca366a8c892dec6ea615d05be8" "e53f26bf4e436383b3f1015ce0fc73f6049e56594ba754f1fc249b5a24bec277" "c291db4bf2f189ef64314929fcf8df55b3d0b7d05892ba68650d7ae122e2e06d" "b33d7b8560d95aadd7143a06594a960888efff2c755d8fd02a2bd89e097ec81f" "f94b10ce2d675be8406b65d65a5f6e5998abe11a2d3bf41a23ca89e119069598" "6e3e4c96c9badf05266e793f3f33d22d8baeb01762303005c95e954424d3d3b1" "4c6daa4c9ad1239dff90e0d7a5c52ce1304c2a8217c1d89163f1f058537a2728" "ee999c5423403471d1cc197419cace81baa37f4c437fde5cdc68161455411322" "1135c68d913bc0c1c495d61e958782ebccbcfcfd25e9c56f768a739c1359013b" "700a92223ceb4af47e26adf31a2efdf1d282d77b3eadbf11cdbc1b23d9025405" "3d272799b73437e219fb840a7fb9df7df086a5e327694106a6866e6020737e22" "e0a1a9823d9ec86057e258d60c68218b0e6b31f4e197d56554140bdd5d9caa71" "50bda9f8157e84caa7a2edcfae789f090682113e919bd6790d02dc797427c9df" "3791210eaf10dd3cfb5a6fe595b7825750b7bc0ece71f15d8fdf49090c18aa7b" "b04e98efb80c08473b6687253a9f97669fbf0f63f34f2ad51cca77cc6a1756a0" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "d56ab147037efedd59e62451ca370b6d6573f10a07c0114d376d1a1a32563491" "696c7ad6e700206aa3d86a2555e90283f47c521d9188439804cf1a85a0aec758" "78d54007f52f745bb55e95f91390c4b947af59f777e1cd3cbe88204590ae25a0" "2c95cd2a529def31d6a67f87f4a03e967d330be6cb818ef94c068ff4708230db" "325c152851c1038848c4cb04dfa5184f46023d749aafaa7109b9289516831199" "c304e593666ca09232b1b4785876a03415efe834f7cc9af8f3afb6fd43c5ad33" "676fc0d75e7e9f54260c10e388cb925b4ce554fbc93b25da86ad6db47547bed7" "8acff68bb168fa0f5c3d09a4bf338ed8fec9ee464cc6e1cefef441a171a6381b" "6ca2c4437d37cea1cb151749c3585d1ea29fd483b831f7013beeac90081101c2" "07839198ca42eaaa51a28432cb8658ec5fbadbd8a6e6da231f116f7841fee0cb" "51517dac0b5f6b9839b8c2e01e07ada1c9c2440de21eb1fa534718f9aaf13f19" "4fdd3bae4ef37b5b67dccc91557bf069a8ba804723f49b462d69e5a64e298dee" "1caa46cdd3573072d3ac92a2c21474c2e1dad65de9b6d0c7ede64c79e9879f1a" "0d4da8e06207a8ac31c6e8335bcf1481f44f9eb30c065649ae8a9d46803f10ea" "b13ffeb4813ebc7b964dcc39b7c0d77704005acbaf1fcb4ca42e9bb942c82b7a" "ac2ce00fab91c5799e8289dc6be38696efcbf4489eab689e7debfc3e8e3ecc93" "bb6ce5371e43d4fefc4613af95fb2bdca1846c8475df1ee6e5fc520f930a2150")))
  '(electric-pair-mode t)
  '(evil-collection-setup-minibuffer t)
  '(flycheck-javascript-flow-args nil)
@@ -492,27 +498,27 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(global-origami-mode t)
  '(hl-todo-keyword-faces
    (quote
-    (("TODO" . "#dc752f")
-     ("NEXT" . "#dc752f")
-     ("THEM" . "#2aa198")
-     ("PROG" . "#268bd2")
-     ("OKAY" . "#268bd2")
-     ("DONT" . "#d70000")
-     ("FAIL" . "#d70000")
-     ("DONE" . "#86dc2f")
-     ("NOTE" . "#875f00")
-     ("KLUDGE" . "#875f00")
-     ("HACK" . "#875f00")
-     ("TEMP" . "#875f00")
-     ("FIXME" . "#dc752f")
-     ("XXX" . "#dc752f")
-     ("XXXX" . "#dc752f")
-     ("???" . "#dc752f"))))
+	(("TODO" . "#dc752f")
+	 ("NEXT" . "#dc752f")
+	 ("THEM" . "#2aa198")
+	 ("PROG" . "#268bd2")
+	 ("OKAY" . "#268bd2")
+	 ("DONT" . "#d70000")
+	 ("FAIL" . "#d70000")
+	 ("DONE" . "#86dc2f")
+	 ("NOTE" . "#875f00")
+	 ("KLUDGE" . "#875f00")
+	 ("HACK" . "#875f00")
+	 ("TEMP" . "#875f00")
+	 ("FIXME" . "#dc752f")
+	 ("XXX" . "#dc752f")
+	 ("XXXX" . "#dc752f")
+	 ("???" . "#dc752f"))))
  '(magit-diff-section-arguments (quote ("--no-ext-diff")))
  '(org-agenda-files (quote ("/home/fernando/org/todo.org")))
  '(package-selected-packages
    (quote
-    (flycheck-flow dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens elixir-yasnippets go-mode web-mode haml-mode flow-minor-mode haskell-mode indium html-mode company-web company-restclient dired dired-x minions moody which-key org-bullets tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit yasnippet async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile helm-ag evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager company-go seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil)))
+	(bison-mode flycheck-flow dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens elixir-yasnippets go-mode web-mode haml-mode flow-minor-mode haskell-mode indium html-mode company-web company-restclient dired dired-x minions moody which-key org-bullets tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit yasnippet async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile helm-ag evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager company-go seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#262626")))
  '(scroll-bar-mode nil)
  '(setq ansi-term-color-vector)
