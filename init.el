@@ -5,6 +5,7 @@
 (require 'package)
 (require 'mouse)
 (require 'dired-x)
+
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
@@ -20,9 +21,10 @@
 (show-paren-mode 1)
 (menu-bar-mode -1)
 (toggle-tool-bar-mode-from-frame -1)
-(winner-mode 1)
 (global-outline-minor-mode 1)
 (add-hook 'focus-out-hook #'garbage-collect)
+(add-hook 'after-save-hook #'garbage-collect)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 (setq-default
  backup-directory-alist '(("." . "~/.emacs.d/saves"))
@@ -34,7 +36,8 @@
  blink-matching-paren nil
  toggle-scroll-bar nil
  ispell-program-name (executable-find "hunspell")
- ispell-dictionary "es_ES")
+ ispell-dictionary "es_ES"
+ help-window-select t)
 
 (setq-default ispell-local-dictionary-alist
       '(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
