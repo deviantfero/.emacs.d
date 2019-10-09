@@ -142,6 +142,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (which-key-mode 1))
 
+(use-package add-node-modules-path
+  :ensure t)
+
 ;;; STATUS LINE
 (use-package minions
   :ensure t
