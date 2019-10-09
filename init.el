@@ -48,24 +48,18 @@
 
 (load-theme 'wpgtk t)
 
-;;; FUNCTION DEFINITIONS.
-(defun my/use-eslint-from-node-modules ()
-  "Use local eslint from node_modules before global."
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
 
 (defun my/activate-tide-mode ()
   "Use hl-identifier-mode only on js or ts buffers."
   (when (and (stringp buffer-file-name)
              (string-match "\\.[tj]sx?\\'" buffer-file-name))
-    (tide-setup)
+	(tide-setup)
     (tide-hl-identifier-mode)))
+
+(defun my/set-local-eslint ()
+  "Use local node_modules."
+  (add-node-modules-path)
+  (setq-local flycheck-javascript-eslint-executable (executable-find "eslint")))
 
 (defun sudo-write ()
   "Use TRAMP to open a file with write access using sudo."
@@ -73,13 +67,6 @@
   (if (not buffer-file-name)
       (write-file (concat "/sudo:root@localhost:" (ido-read-file-name)))
     (write-file (concat "/sudo:root@localhost:" (buffer-file-name)))))
-
-(defun line-number-toggle ()
-  "Toggle line numbers based on Emacs version."
-  (interactive)
-  (if (version<= "26.0.50" emacs-version)
-      (display-line-numbers-mode)
-    (nlinum-mode)))
 
 (defun my/multi-term ()
   "Opens a terminal in current projectile root or in current dir."
@@ -103,6 +90,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :hook (prog-mode . highlight-numbers-mode))
 
+(use-package multi-line
+  :ensure t
+  :bind (:map global-map
+			  ("C-c d" . multi-line)
+			  :map evil-normal-state-map
+			  ("M-j" . multi-line)))
+
 (use-package projectile
   :ensure t
   :bind (:map projectile-mode-map
@@ -116,17 +110,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :bind (:map evil-normal-state-map
               ("<f9>" . magit-status)))
 
-(use-package nlinum
-  :ensure t
-  :hook
-  (prog-mode . line-number-toggle)
-  (prog-mode . xterm-mouse-mode)
-  :config
-  (setq nlinum-format "%3d  "))
+(use-package dired+
+  :after dired
+  :init (setq diredp-hide-details-initially-flag nil)
+  :load-path "~/.emacs.d/packages/dired+")
 
 (use-package dtrt-indent
   :ensure t
-  :config (dtrt-indent-global-mode 1))
+  :config
+  (setq dtrt-indent-min-quality 90.0)
+  (dtrt-indent-global-mode 1))
 
 (use-package xclip
   :ensure t
