@@ -14,40 +14,11 @@
 (eval-when-compile
   (require 'use-package))
 
-(define-globalized-minor-mode global-outline-minor-mode
-  outline-minor-mode outline-minor-mode)
-
-(column-number-mode 1)
-(show-paren-mode 1)
-(menu-bar-mode -1)
-(toggle-tool-bar-mode-from-frame -1)
-(global-outline-minor-mode 1)
-(add-hook 'focus-out-hook #'garbage-collect)
-(add-hook 'after-save-hook #'garbage-collect)
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-
-(setq-default
- backup-directory-alist '(("." . "~/.emacs.d/saves"))
- backup-by-copying t
- auto-save-default nil
- create-lockfiles nil
- inhibit-startup-message t
- tab-width 4
- blink-matching-paren nil
- toggle-scroll-bar nil
- ispell-program-name (executable-find "hunspell")
- ispell-dictionary "es_ES"
- help-window-select t)
-
-(setq-default ispell-local-dictionary-alist
-      '(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
-        ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
 (dolist (basic-offset '(c-basic-offset sh-basic-offset))
   (defvaralias basic-offset 'tab-width))
 
-
-(load-theme 'wpgtk t)
-
+(define-globalized-minor-mode global-outline-minor-mode
+  outline-minor-mode outline-minor-mode)
 
 (defun my/activate-tide-mode ()
   "Use hl-identifier-mode only on js or ts buffers."
@@ -84,14 +55,41 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       (setq deactivate-mark  t)
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*")) (abort-recursive-edit)))
 
-
 ;;; BASIC
+(use-package emacs
+  :init
+  (load-theme 'wpgtk t)
+  (column-number-mode 1)
+  (show-paren-mode 1)
+  (menu-bar-mode -1)
+  (toggle-tool-bar-mode-from-frame -1)
+  (global-outline-minor-mode 1)
+  (add-hook 'focus-out-hook #'garbage-collect)
+  (add-hook 'after-save-hook #'garbage-collect)
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  (setq-default ispell-local-dictionary-alist
+				'(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
+				  ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
+  (setq-default
+   backup-directory-alist '(("." . "~/.emacs.d/saves"))
+   backup-by-copying t
+   auto-save-default nil
+   create-lockfiles nil
+   inhibit-startup-message t
+   tab-width 4
+   blink-matching-paren nil
+   toggle-scroll-bar nil
+   ispell-program-name (executable-find "hunspell")
+   ispell-dictionary "es_ES"
+   help-window-select t))
+
 (use-package highlight-numbers
   :ensure t
   :hook (prog-mode . highlight-numbers-mode))
 
 (use-package multi-line
   :ensure t
+  :after evil
   :bind (:map global-map
 			  ("C-c d" . multi-line)
 			  :map evil-normal-state-map
@@ -163,8 +161,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
    'org-babel-load-languages '((shell . t)
                                (python . t)
                                (ruby . t)
-                               (C . t)
-                               (haskell . t)))
+                               (C . t)))
   (add-to-list 'org-export-backends 'taskjuggler))
 
 (use-package org-bullets
@@ -209,6 +206,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down))
+
+(use-package general
+  :after evil
+  :ensure t
+  :config
+  (general-evil-setup)
+  (defvar evil-leader-def)
+  (general-create-definer evil-leader-def :prefix "SPC")
+  (evil-leader-def
+   :keymaps '(normal visual)
+   "p" 'projectile-switch-project
+   "v" 'evil-window-vsplit
+   "s" 'evil-window-split
+   "X" '(:prefix-command apropos-prefix-map :which-key "xref")))
 
 (use-package evil-collection
   :ensure t
@@ -299,10 +310,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq js2-mode-show-strict-warnings nil)
   (setq js2-mode-show-parse-errors 1))
 
-(use-package flow-minor-mode
-  :ensure t
-  :hook (web-mode . flow-minor-enable-automatically))
-
 (use-package elpy
   :ensure t
   :hook ((python-mode . elpy-mode)
@@ -321,9 +328,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (setq compile-command "echo Building... && go build -v && echo Testing... && go test -v && echo Linter... && golint")
   (setq  compilation-read-command nil))
-
-(use-package haskell-mode
-  :ensure t)
 
 (use-package elixir-mode
   :ensure t)
@@ -368,7 +372,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package yaml-mode
   :ensure t)
 
-(use-package bison-mode
+(use-package graphql-mode
   :ensure t)
 
 ;;; COMPANY
@@ -444,10 +448,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :config
   (flycheck-irony-setup))
-
-(use-package flycheck-flow
-  :after (flow-minor-mode)
-  :ensure t)
 
 ;;; NOTE-TAKING
 (use-package pdf-tools
@@ -525,7 +525,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(org-agenda-files (quote ("/home/fernando/org/todo.org")))
  '(package-selected-packages
    (quote
-	(multi-line helm-ag add-node-modules-path swiper swiper-helm bison-mode flycheck-flow dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens elixir-yasnippets go-mode web-mode haml-mode flow-minor-mode haskell-mode indium html-mode company-web company-restclient dired dired-x minions moody which-key org-bullets tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit yasnippet async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager company-go seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil)))
+	(graphql-mode general multi-line helm-ag add-node-modules-path swiper swiper-helm dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens elixir-yasnippets go-mode web-mode haml-mode indium html-mode company-web company-restclient dired dired-x minions moody which-key org-bullets tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit yasnippet async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager company-go seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#262626")))
  '(safe-local-variable-values (quote ((engine . php))))
  '(scroll-bar-mode nil)
@@ -541,4 +541,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  )
 
 (provide 'init)
+(put 'narrow-to-region 'disabled nil)
 ;;; init.el ends here

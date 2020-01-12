@@ -7,3 +7,8 @@ auto-save-list/
 .python-environments/
 irony/
 /anaconda-mode
+/elpy/
+/projectile-bookmarks.eld
+/projectile.cache
+/transient/
+/network-security.data
