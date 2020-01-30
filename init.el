@@ -12,7 +12,8 @@
 (package-initialize)
 
 (eval-when-compile
-  (require 'use-package))
+  (require 'use-package)
+  (setq use-package-always-ensure t))
 
 (dolist (basic-offset '(c-basic-offset sh-basic-offset))
   (defvaralias basic-offset 'tab-width))
@@ -64,6 +65,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (menu-bar-mode -1)
   (toggle-tool-bar-mode-from-frame -1)
   (global-outline-minor-mode 1)
+  (winner-mode 1)
   (add-hook 'focus-out-hook #'garbage-collect)
   (add-hook 'after-save-hook #'garbage-collect)
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -84,11 +86,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
    help-window-select t))
 
 (use-package highlight-numbers
-  :ensure t
   :hook (prog-mode . highlight-numbers-mode))
 
 (use-package multi-line
-  :ensure t
   :after evil
   :bind (:map global-map
 			  ("C-c d" . multi-line)
@@ -96,7 +96,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			  ("M-j" . multi-line)))
 
 (use-package projectile
-  :ensure t
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :config
@@ -104,7 +103,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package magit
   :after evil
-  :ensure t
   :bind (:map evil-normal-state-map
               ("<f9>" . magit-status)))
 
@@ -114,43 +112,34 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :load-path "~/.emacs.d/packages/dired+")
 
 (use-package dtrt-indent
-  :ensure t
   :config
   (setq dtrt-indent-min-quality 90.0)
   (dtrt-indent-global-mode 1))
 
 (use-package xclip
-  :ensure t
   :config (xclip-mode 1))
 
 (use-package multi-term
-  :ensure t
   :config
   (setq multi-term-program "/bin/zsh"))
 
 (use-package yasnippet
-  :ensure t
   :config (yas-global-mode 1)
   :bind (:map yas-keymap
               ("TAB" . nil)
               ("C-o" . yas-next-field-or-maybe-expand)))
 
 (use-package which-key
-  :ensure t
-  :config
-  (which-key-mode 1))
+  :config (which-key-mode 1))
 
-(use-package add-node-modules-path
-  :ensure t)
+(use-package add-node-modules-path)
 
 ;;; STATUS LINE
 (use-package minions
-  :ensure t
   :config (minions-mode 1))
 
 ;;; ORG MODE
 (use-package org
-  :ensure t
   :mode ("\\.org\\'" . org-mode)
   :bind (("C-c a" . org-agenda))
   :hook (org-mode . visual-line-mode)
@@ -165,14 +154,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (add-to-list 'org-export-backends 'taskjuggler))
 
 (use-package org-bullets
-  :ensure t
   :after org
   :config (setq org-bullets-bullet-list '("*" "○" "◆" "•"))
   :hook (org-mode . org-bullets-mode))
 
 ;;; TRAMP
-(use-package docker-tramp
-  :ensure t)
+(use-package docker-tramp)
 
 (use-package tramp
   :defer 5
@@ -189,7 +176,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package evil
   :init
   (setq evil-want-keybinding nil)
-  :ensure t
   :config
   (evil-mode 1)
   (define-key evil-normal-state-map (kbd "<f5>") 'compile)
@@ -205,11 +191,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down))
+  (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+  (define-key evil-normal-state-map (kbd "M-u") 'winner-undo)
+  (define-key evil-normal-state-map (kbd "M-r") 'winner-redo))
 
 (use-package general
   :after evil
-  :ensure t
   :config
   (general-evil-setup)
   (defvar evil-leader-def)
@@ -222,12 +209,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
    "X" '(:prefix-command apropos-prefix-map :which-key "xref")))
 
 (use-package evil-collection
-  :ensure t
   :custom (evil-collection-setup-minibuffer t)
   :init (evil-collection-init))
 
 (use-package evil-org
-  :ensure t
   :hook
   (org-mode . evil-org-mode)
   (evil-org-mode . (lambda () (evil-org-set-key-theme)))
@@ -236,31 +221,25 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (evil-org-agenda-set-keys))
 
 (use-package evil-magit
-  :after (evil magit)
-  :ensure t)
+  :after (evil magit))
 
 (use-package evil-surround
   :after evil
-  :ensure t
   :config (global-evil-surround-mode 1))
 
 (use-package evil-commentary
   :after evil
-  :ensure t
   :config (evil-commentary-mode 1))
 
 (use-package evil-matchit
-  :ensure t
   :config (global-evil-matchit-mode 1))
 
 (use-package evil-visualstar
-  :ensure t
   :config (global-evil-visualstar-mode))
 
 ;;; HELM
 (use-package helm
   :after evil
-  :ensure t
   :bind (:map evil-normal-state-map
               ("M-k" . helm-do-ag)
               ("C-f" . helm-find-files)
@@ -276,12 +255,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq helm-full-frame nil)
   (setq helm-completion-in-region-fuzzy-match t))
 
-(use-package helm-ag
-  :ensure t)
+(use-package helm-ag)
 
 (use-package helm-projectile
   :after evil
-  :ensure t
   :bind (:map evil-normal-state-map
               ("C-g" . helm-projectile))
   :config
@@ -289,7 +266,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;; LANGUAGES.
 (use-package web-mode
-  :ensure t
   :mode
   ("\\.ejs\\'" "\\.hbs\\'" "\\.html\\'" "\\.php\\'" "\\.[jt]sx?\\'")
   :config
@@ -411,35 +387,29 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (global-company-mode 1))
 
 (use-package tide
-  :ensure t
   :config
   (flycheck-add-next-checker 'tsx-tide 'javascript-eslint)
   :hook (web-mode . my/activate-tide-mode))
 
 (use-package company-irony
-  :ensure t
   :after irony
   :hook
   (irony-mode . (lambda () (add-to-list 'company-backends 'company-irony)))
   (irony-mode . irony-cdb-autosetup-compile-options))
 
 (use-package alchemist
-  :ensure t
   :hook
   (elixir-mode . (lambda () (add-to-list 'company-backends 'alchemist-company))))
 
 (use-package company-web
-  :ensure t
   :hook
   (mhtml-mode . (lambda () (add-to-list 'company-backends 'company-web-html))))
 
 (use-package company-restclient
-  :ensure t
   :hook
   (restclient-mode . (lambda () (add-to-list 'company-backends 'company-restclient))))
 
 (use-package company-go
-  :ensure t
   :hook
   (go-mode . (lambda () (add-to-list 'company-backends 'company-go))))
 
@@ -449,7 +419,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;; FLYCHECK
 (use-package flycheck
-  :ensure t
   :hook (web-mode . my/set-local-eslint)
   :init
   (setq flycheck-python-flake8-executable (executable-find "flake8"))
@@ -460,12 +429,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (global-flycheck-mode 1))
 
 (use-package flycheck-pkg-config
-  :after (flycheck)
-  :ensure t)
+  :after (flycheck))
 
 (use-package flycheck-irony
   :after (flycheck company-irony)
-  :ensure t
   :config
   (flycheck-irony-setup))
 
@@ -474,11 +441,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (rust-mode . flycheck-rust-setup))
 
 ;;; NOTE-TAKING
-(use-package pdf-tools
-  :ensure t)
+(use-package pdf-tools)
 
 (use-package markdown-mode
-  :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -490,6 +455,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure auctex
   :config
   (use-package latex
+	:ensure f
     :config
     (setq TeX-auto-save t)
     (setq TeX-parse-self t)
@@ -503,8 +469,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
                  (setcdr (assq 'output-pdf TeX-view-program-selection) '("zathura viewer")))))
 
 (use-package ox-pandoc
-  :after org
-  :ensure t)
+  :after org)
 
 
 ;;; AUTOMATICALLY GENERATED
@@ -549,7 +514,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(org-agenda-files (quote ("/home/fernando/org/todo.org")))
  '(package-selected-packages
    (quote
-	(graphql-mode general multi-line helm-ag add-node-modules-path swiper swiper-helm dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens elixir-yasnippets go-mode web-mode haml-mode indium html-mode company-web company-restclient dired dired-x minions moody which-key org-bullets tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit yasnippet async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager company-go seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil)))
+	(cargo winner-mode company-lsp lsp-ui lsp-mode lsp flycheck-rust graphql-mode general multi-line helm-ag add-node-modules-path swiper swiper-helm dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens elixir-yasnippets go-mode web-mode haml-mode indium html-mode company-web company-restclient dired dired-x minions moody which-key org-bullets tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit yasnippet async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager company-go seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#262626")))
  '(safe-local-variable-values (quote ((engine . php))))
  '(scroll-bar-mode nil)
