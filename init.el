@@ -354,30 +354,47 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (add-to-list 'irony-supported-major-modes 'bison-mode))
 
+(use-package rust-mode
+  :hook (rust-mode . lsp))
+
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
+
+(use-package graphql-mode)
+(use-package cmake-mode)
+
+(use-package haml-mode
+  :mode "\\.haml\\'")
+
 (use-package conf-mode
-  :ensure t
   :mode (("\\.env\\'" . conf-mode))
   :config
   (setq outline-regexp "[#\f]+")
   (define-key evil-normal-state-map (kbd "TAB") 'org-cycle))
 
 (use-package dockerfile-mode
-  :ensure t
   :mode ("Dockerfile\\'" . dockerfile-mode))
 
-(use-package sh-script
+(use-package yaml-mode)
+
+(use-package restclient
+  :mode (("\\.http\\'" . restclient-mode)
+         ("\\.rest\\'" . restclient-mode))
   :config
-  (setq outline-regexp "[#\f]+"))
+  (setq outline-regexp "#[*\f]+"))
 
-(use-package yaml-mode
-  :ensure t)
+;;; LSP
+(use-package lsp-mode
+  :commands lsp)
 
-(use-package graphql-mode
-  :ensure t)
+(use-package lsp-ui
+  :config
+  (setq lsp-ui-flycheck-live-reporting nil)
+  :hook
+  (lsp-mode . lsp-ui-mode))
 
 ;;; COMPANY
 (use-package company
-  :ensure t
   :after evil
   :init
   (setq company-idle-delay 0)
@@ -426,6 +443,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :hook
   (go-mode . (lambda () (add-to-list 'company-backends 'company-go))))
 
+(use-package company-lsp
+  :hook
+  (lsp-mode . (lambda () (add-to-list 'company-backends 'company-lsp))))
 
 ;;; FLYCHECK
 (use-package flycheck
@@ -448,6 +468,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :ensure t
   :config
   (flycheck-irony-setup))
+
+(use-package flycheck-rust
+  :hook
+  (rust-mode . flycheck-rust-setup))
 
 ;;; NOTE-TAKING
 (use-package pdf-tools
