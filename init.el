@@ -21,6 +21,17 @@
 (define-globalized-minor-mode global-outline-minor-mode
   outline-minor-mode outline-minor-mode)
 
+(defun projectile-get-term ()
+  "Get dedicated multi-term in project root."
+  (interactive)
+  (let ((projectile--proj-term-name
+		 (concat "*" multi-term-buffer-name "[" projectile-project-name "]*")))
+	(if (not (eq nil (get-buffer projectile--proj-term-name)))
+		(switch-to-buffer projectile--proj-term-name)
+	  (projectile-with-default-dir (projectile-project-root)
+		(multi-term)
+		(rename-buffer projectile--proj-term-name)))))
+
 (defun my/activate-tide-mode ()
   "Use hl-identifier-mode only on js or ts buffers."
   (when (and (stringp buffer-file-name)
