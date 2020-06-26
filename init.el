@@ -164,7 +164,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 
 
-;;; TRAMP
+;;; Tramp
 (use-package docker-tramp)
 (use-package tramp
   :defer 5
@@ -176,7 +176,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setf tramp-persistency-file-name
         (concat temporary-file-directory "tramp-" (user-login-name))))
 
-;;; EVIL
+;;; Evil
 (use-package evil
   :init
   (setq evil-want-keybinding nil)
@@ -236,7 +236,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (global-evil-vimish-fold-mode))
 
-;;; HELM
+;;; Helm
 (use-package helm
   :after evil
   :bind (:map evil-normal-state-map
@@ -263,7 +263,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (helm-projectile-on))
 
-;;; LSP
+;;; lsp
 (use-package lsp-mode
   :commands lsp)
 
@@ -412,7 +412,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :hook
   (restclient-mode . (lambda () (add-to-list 'company-backends 'company-restclient))))
 
-;;; COMPANY
+;;; Company
 (use-package company
   :after evil
   :init
@@ -430,7 +430,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq company-dabbrev-other-buffers t)
   (global-company-mode 1))
 
-;;; FLYCHECK
+;;; Flycheck
 (use-package flycheck
   :hook (web-mode . my/set-local-eslint)
   :init
@@ -444,7 +444,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package flycheck-pkg-config
   :after (flycheck))
 
-;;; ORG MODE
+;;; Org
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :bind (("C-c a" . org-agenda))
@@ -465,7 +465,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :hook (org-mode . org-bullets-mode))
 
 
-;;; NOTE-TAKING
+;;; Note taking
 (use-package pdf-tools)
 
 (use-package markdown-mode

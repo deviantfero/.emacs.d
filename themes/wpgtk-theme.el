@@ -42,22 +42,22 @@
 
 (defun get-hex-or-term (n)
   "Gets N hex or a term color depending on whether we're using an GUI or not."
-  (cond ((eq n 0)  (if (display-graphic-p) "#352829"  "black"))
-        ((eq n 1)  (if (display-graphic-p) "#D17B49"  "red"))
-        ((eq n 2)  (if (display-graphic-p) "#7B8748"  "green"))
-        ((eq n 3)  (if (display-graphic-p) "#AF865A"  "yellow"))
-        ((eq n 4)  (if (display-graphic-p) "#535C5C"  "blue"))
-        ((eq n 5)  (if (display-graphic-p) "#775759"  "magenta"))
-        ((eq n 6)  (if (display-graphic-p) "#6D715E"  "cyan"))
-        ((eq n 7)  (if (display-graphic-p) "#C0B18B"  "white"))
-        ((eq n 8)  (if (display-graphic-p) "#513d3e"  "brightblack"))
-        ((eq n 9)  (if (display-graphic-p) "#ff9b4c"  "brightred"))
-        ((eq n 10) (if (display-graphic-p) "#a8bc50" "brightgreen"))
-        ((eq n 11) (if (display-graphic-p) "#f4ae63" "brightyellow"))
-        ((eq n 12) (if (display-graphic-p) "#608282" "brightblue"))
-        ((eq n 13) (if (display-graphic-p) "#a86368" "brightmagenta"))
-        ((eq n 14) (if (display-graphic-p) "#95a06c" "brightcyan"))
-        ((eq n 15) (if (display-graphic-p) "#fff1bd" "brightwhite"))))
+  (cond ((eq n 0)  (if (display-graphic-p) "#0f2023"  "black"))
+        ((eq n 1)  (if (display-graphic-p) "#6496c4"  "red"))
+        ((eq n 2)  (if (display-graphic-p) "#ae8aad"  "green"))
+        ((eq n 3)  (if (display-graphic-p) "#726798"  "yellow"))
+        ((eq n 4)  (if (display-graphic-p) "#b36066"  "blue"))
+        ((eq n 5)  (if (display-graphic-p) "#9a8459"  "magenta"))
+        ((eq n 6)  (if (display-graphic-p) "#bb8bd4"  "cyan"))
+        ((eq n 7)  (if (display-graphic-p) "#e6c29f"  "white"))
+        ((eq n 8)  (if (display-graphic-p) "#1d4046"  "brightblack"))
+        ((eq n 9)  (if (display-graphic-p) "#6ec3ff"  "brightred"))
+        ((eq n 10) (if (display-graphic-p) "#f69ff3" "brightgreen"))
+        ((eq n 11) (if (display-graphic-p) "#8b75d6" "brightyellow"))
+        ((eq n 12) (if (display-graphic-p) "#fa6a75" "brightblue"))
+        ((eq n 13) (if (display-graphic-p) "#d7b063" "brightmagenta"))
+        ((eq n 14) (if (display-graphic-p) "#fa9dff" "brightcyan"))
+        ((eq n 15) (if (display-graphic-p) "#fffdcf" "brightwhite"))))
 
 (defun create-wpgtk-theme (variant theme-name)
   (let ((class '((class color) (min-colors 16)))
@@ -435,6 +435,16 @@
      `(org-verse ((,class (:inherit org-block :slant italic))))
      `(org-warning ((,class (:foreground ,err))))
 
+
+;;;;; lsp-ui
+	 `(lsp-ui-doc-background ((,class (:background, bg2))))
+
+;;;;; enhanced-ruby
+     `(enh-ruby-op-face ((,class (:foreground ,func))))
+     `(enh-ruby-regex-face ((,class (:foreground ,str))))
+     `(enh-ruby-regex-delim-face ((,class (:foreground ,str))))
+     `(enh-ruby-heredoc-delimiter-face ((,class (:foreground ,inf))))
+
 ;;;;; powerline
      `(powerline-active1 ((,class (:background ,active2 :foreground ,base))))
      `(powerline-active2 ((,class (:background ,active2 :foreground ,base))))
@@ -526,6 +536,7 @@
      `(web-mode-json-context-face ((,class (:foreground ,builtin))))
      `(web-mode-json-key-face ((,class (:foreground ,keyword))))
      `(web-mode-string-face ((,class (:foreground ,str))))
+     `(web-mode-symbol-face ((,class (:foreground ,func))))
      `(web-mode-type-face ((,class (:inherit ,font-lock-type-face))))
      `(web-mode-warning-face ((,class (:inherit ,font-lock-warning-face)))))))
 
