@@ -253,8 +253,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (helm-mode 1)
   (setq helm-mode-fuzzy-match t)
-  (setq helm-split-window-default-side 'same)
+  (setq helm-split-window-default-side 'below)
   (setq helm-full-frame nil)
+  (setq helm-split-window-inside-p t)
   (setq helm-completion-in-region-fuzzy-match t))
 
 (use-package helm-ag)
