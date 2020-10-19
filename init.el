@@ -198,7 +198,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
   (define-key evil-normal-state-map (kbd "M-u") 'winner-undo)
-  (define-key evil-normal-state-map (kbd "M-r") 'winner-redo))
+  (define-key evil-normal-state-map (kbd "M-r") 'winner-redo)
+  (evil-define-key 'normal lsp-mode-map (kbd "K") 'lsp-describe-thing-at-point)
+  (evil-define-key 'normal lsp-mode-map (kbd "\\") lsp-command-map))
 
 (use-package evil-collection
   :custom (evil-collection-setup-minibuffer t)
@@ -266,18 +268,19 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;; lsp
 (use-package lsp-mode
-  :config
-  (setq lsp-print-io t)
   :commands lsp)
 
 (use-package lsp-ui
   :hook
-  (lsp-mode . lsp-ui-mode))
+  (lsp-mode . lsp-ui-mode)
+  :config
+  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-sideline-enable nil))
 
 ;;; Javascript/HTML/REST
 (use-package web-mode
   :mode
-  ("\\.ejs\\'" "\\.erb\\'" "\\.hbs\\'" "\\.html\\'" "\\.php\\'" "\\.[jt]sx?\\'")
+  ("\\.ejs\\'" "\\.vue\\'" "\\.erb\\'" "\\.hbs\\'" "\\.html\\'" "\\.php\\'" "\\.[jt]sx?\\'")
   :config
   (setq web-mode-content-types-alist '(("jsx" . "\\.[jt]sx?\\'")))
   (setq web-mode-markup-indent-offset 2)
@@ -425,7 +428,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq company-minimum-prefix-length 2)
   (setq company-selection-wrap-around t)
   (setq company-dabbrev-other-buffers nil)
-  (company-tng-configure-default)
+  (company-tng-mode)
   :bind (:map evil-insert-state-map
               ("C-y" . company-yasnippet)
               ("C-f" . company-files)
@@ -546,7 +549,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(org-agenda-files '("/home/fernando/org/todo.org"))
  '(org-latex-compiler "xelatex")
  '(package-selected-packages
-   '(cider plan9-theme rvm gdscript-mode smartparens evil-vimish-fold cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path swiper swiper-helm dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web company-restclient dired dired-x minions moody which-key org-bullets tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil))
+   '(cider plan9-theme rvm gdscript-mode smartparens evil-vimish-fold cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path swiper dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web company-restclient dired dired-x minions moody which-key org-bullets tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(safe-local-variable-values '((engine . php)))
  '(scroll-bar-mode nil)
