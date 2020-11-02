@@ -66,6 +66,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (toggle-tool-bar-mode-from-frame -1)
   (global-outline-minor-mode 1)
   (winner-mode 1)
+  (global-undo-tree-mode)
   (add-hook 'focus-out-hook #'garbage-collect)
   (add-hook 'after-save-hook #'garbage-collect)
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -151,8 +152,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package minions
   :config (minions-mode 1))
 
-
-
 ;;; Tramp
 (use-package docker-tramp)
 (use-package tramp
@@ -171,6 +170,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq evil-want-keybinding nil)
   :config
   (evil-mode 1)
+  (evil-set-undo-system 'undo-tree)
   (define-key evil-normal-state-map (kbd "<f5>") 'compile)
   (define-key evil-normal-state-map (kbd "<f7>") 'projectile-get-term)
   (define-key evil-normal-state-map (kbd "-") 'dired-jump)
