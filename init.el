@@ -521,11 +521,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
                                (C . t)))
   (add-to-list 'org-export-backends 'taskjuggler))
 
-(use-package org-bullets
-  :after org
-  :config (setq org-bullets-bullet-list '("*" "○" "◆" "•"))
-  :hook (org-mode . org-bullets-mode))
-
 
 ;;; Note taking
 (use-package pdf-tools)
