@@ -33,18 +33,6 @@
 		(multi-term)
 		(rename-buffer projectile--proj-term-name)))))
 
-(defun my/activate-tide-mode ()
-  "Use hl-identifier-mode only on js or ts buffers."
-  (when (and (stringp buffer-file-name)
-             (string-match "\\.[tj]sx?\\'" buffer-file-name))
-	(tide-setup)
-    (tide-hl-identifier-mode)))
-
-(defun my/set-local-eslint ()
-  "Use local node_modules."
-  (add-node-modules-path)
-  (setq-local flycheck-javascript-eslint-executable (executable-find "eslint")))
-
 (defun sudo-write ()
   "Use TRAMP to open a file with write access using sudo."
   (interactive)
@@ -279,6 +267,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq lsp-ui-sideline-enable nil))
 
 ;;; Javascript/HTML/REST
+(defun my/activate-tide-mode ()
+  "Use hl-identifier-mode only on js or ts buffers."
+  (when (and (stringp buffer-file-name)
+             (string-match "\\.[tj]sx?\\'" buffer-file-name))
+	(tide-setup)
+    (tide-hl-identifier-mode)))
+
+(defun my/set-local-eslint ()
+  "Use local node_modules."
+  (add-node-modules-path)
+  (setq-local flycheck-javascript-eslint-executable (executable-find "eslint")))
+
 (use-package web-mode
   :mode
   ("\\.ejs\\'" "\\.vue\\'" "\\.erb\\'" "\\.hbs\\'" "\\.html\\'" "\\.php\\'" "\\.[jt]sx?\\'")
