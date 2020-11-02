@@ -228,6 +228,38 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (global-evil-vimish-fold-mode))
 
 ;;; Helm
+(defun my/helm-open-split-vrt (_candidate)
+  "Opens a file or a buffer in a vertically split window to the right."
+  (require 'winner)
+  (dolist (buf (helm-marked-candidates))
+	(select-window (split-window-right))
+	(if (stringp buf)
+		(find-file buf)
+	  (switch-to-buffer buf)))
+  (balance-windows))
+
+(defun my/helm-open-split-hor (_candidate)
+  "Opens a file or a buffer in a horizontally split window bellow."
+  (require 'winner)
+  (dolist (buf (helm-marked-candidates))
+	(select-window (split-window-below))
+	(if (stringp buf)
+		(find-file buf)
+	  (switch-to-buffer buf)))
+  (balance-windows))
+
+(defun helm-open-split-horizontal ()
+  "Keybinded function to call horizontal split on helm."
+  (interactive)
+  (with-helm-alive-p
+	(helm-quit-and-execute-action 'my/helm-open-split-hor)))
+
+(defun helm-open-split-vertical ()
+  "Keybinded function to call vertical split on helm."
+  (interactive)
+  (with-helm-alive-p
+	(helm-quit-and-execute-action 'my/helm-open-split-vrt)))
+
 (use-package helm
   :after evil
   :bind (:map evil-normal-state-map
@@ -236,15 +268,32 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
               ("C-o" . helm-buffers-list)
               :map helm-map
               ("TAB" . helm-execute-persistent-action)
+			  ("C-c v" . helm-open-split-vertical)
+			  ("C-c x" . helm-open-split-horizontal)
               :map global-map
               ("M-x" . helm-M-x))
   :config
   (helm-mode 1)
-  (setq helm-mode-fuzzy-match t)
-  (setq helm-split-window-default-side 'below)
-  (setq helm-full-frame nil)
+  (setq helm-completion-style 'emacs)
   (setq helm-split-window-inside-p t)
-  (setq helm-completion-in-region-fuzzy-match t))
+  (setq helm-display-header-line nil)
+  (setq helm-full-frame nil)
+  (helm-autoresize-mode t)
+  (add-to-list 'display-buffer-alist
+			   `(,(rx bos "*helm" (* not-newline) "*" eos)
+				 (display-buffer-in-side-window)
+				 (inhibit-same-window . t)))
+
+  (setq helm-autoresize-min-height 20)
+  (setq helm-autoresize-max-height 20)
+  (dolist (action
+		   '(("Display buffer(s) in new window(s) `C-c v'" . my/helm-open-split-vrt)
+			("Display buffer(s) in new window(s) `C-c x'" . my/helm-open-split-hor)))
+		   (add-to-list 'helm-type-buffer-actions action 'append))
+  (dolist (action
+		   '(("Display buffer(s) in new window(s) `C-c v'" . my/helm-open-split-vrt)
+			("Display buffer(s) in new window(s) `C-c x'" . my/helm-open-split-hor)))
+		   (add-to-list 'helm-find-files-actions action 'append)))
 
 (use-package helm-ag)
 
@@ -550,7 +599,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(org-agenda-files '("/home/fernando/org/todo.org"))
  '(org-latex-compiler "xelatex")
  '(package-selected-packages
-   '(cider plan9-theme rvm gdscript-mode smartparens evil-vimish-fold cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path swiper dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web company-restclient dired dired-x minions moody which-key org-bullets tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil))
+   '(cider plan9-theme rvm gdscript-mode smartparens evil-vimish-fold cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path swiper dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web company-restclient dired dired-x minions moody which-key tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(safe-local-variable-values '((engine . php)))
  '(scroll-bar-mode nil)
