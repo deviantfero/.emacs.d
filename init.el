@@ -437,7 +437,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package elpy
   :defer t
   :init
-  (advice-add 'python-mode :before 'elpy-enable))
+  (advice-add 'python-mode :before 'elpy-enable)
+  :config
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
 ;;; Clojure
 (use-package clojure-mode
