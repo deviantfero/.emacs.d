@@ -306,7 +306,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;; lsp
 (use-package lsp-mode
-  :commands lsp)
+  :commands lsp
+  :config
+  (setq lsp-headerline-breadcrumb-enable nil))
 
 (use-package lsp-ui
   :hook
