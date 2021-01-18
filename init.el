@@ -19,33 +19,12 @@
   (defvaralias basic-offset 'tab-width))
 
 ;;; Custom functions
-(define-globalized-minor-mode global-outline-minor-mode
-  outline-minor-mode outline-minor-mode)
-
-(defun projectile-get-term ()
-  "Get dedicated multi-term in project root."
-  (interactive)
-  (let ((projectile--proj-term-name
-		 (concat "*" multi-term-buffer-name "[" projectile-project-name "]*")))
-	(if (not (eq nil (get-buffer projectile--proj-term-name)))
-		(switch-to-buffer projectile--proj-term-name)
-	  (projectile-with-default-dir (projectile-project-root)
-		(multi-term)
-		(rename-buffer projectile--proj-term-name)))))
-
 (defun sudo-write ()
   "Use TRAMP to open a file with write access using sudo."
   (interactive)
   (if (not buffer-file-name)
       (write-file (concat "/sudo:root@localhost:" (ido-read-file-name)))
     (write-file (concat "/sudo:root@localhost:" (buffer-file-name)))))
-
-(defun my/multi-term ()
-  "Opens a terminal in current projectile root or in current dir."
-  (interactive)
-  (if (projectile-project-p)
-	(cd (projectile-project-root)))
-  (multi-term))
 
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
@@ -64,7 +43,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (show-paren-mode 1)
   (menu-bar-mode -1)
   (toggle-tool-bar-mode-from-frame -1)
-  (global-outline-minor-mode 1)
   (winner-mode 1)
   (global-undo-tree-mode)
   (add-hook 'focus-out-hook #'garbage-collect)
@@ -102,8 +80,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package projectile
   :bind (:map projectile-mode-map
-              ("C-c p" . projectile-command-map)
-			  ("<f7>" . projectile-get-term))
+			  ("<f7>" . projectile-run-vterm)
+              ("C-c p" . projectile-command-map))
   :config
   (projectile-mode))
 
@@ -125,10 +103,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package xclip
   :config (xclip-mode 1))
 
-(use-package multi-term
+(use-package vterm
   :config
-  (setq multi-term-program "/bin/zsh")
-  (setq multi-term-program-switches "--login"))
+  (setq vterm-shell "/bin/zsh"))
 
 (use-package yasnippet
   :config
@@ -172,7 +149,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (evil-mode 1)
   (evil-set-undo-system 'undo-tree)
   (define-key evil-normal-state-map (kbd "<f5>") 'compile)
-  (define-key evil-normal-state-map (kbd "<f7>") 'projectile-get-term)
   (define-key evil-normal-state-map (kbd "-") 'dired-jump)
   (define-key evil-normal-state-map (kbd "ga") 'align-regexp)
   (define-key evil-normal-state-map (kbd "gt") 'other-frame)
@@ -570,7 +546,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(ansi-color-names-vector
    ["#080808" "#d70000" "#67b11d" "#875f00" "#268bd2" "#af00df" "#00ffff" "#b2b2b2"])
  '(custom-safe-themes
-   '("0f9f1936eb2d50584d379b80a4ecaad6cdab7ccd0f3f71cb5abfddf9f38c4ddb" "541a353cc2219e2cd61650984a6428f7768d6c839dfc40bb98dc1d91ce9cc774" "1b80df94f27ba2a9ac8d00b2f2ba898005c4e563c222b6abaed00c914f89aa98" "18cd5a0173772cdaee5522b79c444acbc85f9a06055ec54bb91491173bc90aaa" "d9b89317cfdc13ef0000ab6f12736fb3752077f3aa1af5a8d2d1f605e89efa4f" "98dbb15efa9656c1042e641f43b4bf6f61e817b7c4f64e4dfc91bf3267fad766" "4850c9d8d2311dba5aed4bb4de3fd3560d93bea5f36aa7ef10a37099519e1189" "39e4b0903f633cd262c4f11c3efc3149dce99d37d258894e3cfb1b05d007c1e0" "a0278d2c62aede4e0a5a4c80a50bd104ed9c98f5232e1b7499348a8ccb01505f" "ed618350fc9404d3e4ec439c375c27500d228351ce23b65bf24b9a2a02a89a40" "e522d0e4bb4585b52bf5bcace03cf9eb0841022acbd1b4127851ab62b44db627" "dd68f800be522119f6e6a2eda244efd26f03d9a7aa10adf202e602612839b5e1" "7691c695463f0c0970325e258a8280e032b88fd9e3742da0b3a803d957415d30" "271f448eb77299ce5b14928ec365eaa15167bb036dae853bddc872876c82a743" "0a833d5c313e7bbfd14e6ddb4c1e94e7093bdbc88a8822365df683ebda34efca" "4dac83e929268295602b39f905283538935ae595207e29a293f2f7a4e5503eeb" "e4982755f7c49c5365b69c29cd4fbf0010fb89288ed1ecf4f4a2315d87c7f437" "2d9844d894c015c8fdb55d2816a572263ed11cca8d88130789bebcc48a321c47" "e423b60ad793c0f83a43b9d44bf95e9e47601399b79c8a42a3928cef97a12ab7" "8be034e6df3595310c54f23ebdd3d31bb8246a22fec3e2b3353a946c4f56691b" "c1c3d95abba38b98a7f31d9cbaf950881eed6205aef8e176bb7950def61cd6de" "7e13dae26544cdfb7f78f6a0e01a032c350b76d9846e7420e40e7f1a02d0ffd9" "4c9366a045fff3296b1b0565c181732bc9b103fe2a94dbe1f1159e6c4dfa9463" "15006b639ac371eaaf6fa63e59f0078c6ec2f989d5cd15a91de2dab2d1d9ebf4" "ab0e54d683d251ceee2b7c9de7cb486a960a29fb84b56acbff86a355c7d96ed8" "d6fc1ed94fb90614e90f4f1250705111a04f439c770288ea45420d9625f601b7" "6b86476efcda72a60779635b2865c49afc4ccccbb304bbbed78273d3d0ee3f96" "2b3ef163ca415977b240b10945df66b695cc5ccceae9d62b09aa6ce6c54b9fb8" "f13eab84067c004741b04b75496a8966003e651fa5a26db3c59b0ba5c0de7bf7" "cd6244b8c3be8c5c5aa722ebcc7e77862b46a02201b075b2e08d8d2cc634593d" "e71049fbd53cd366415ac4ba856fb3f16b2a2ecb44ab8379a75628d2478d1367" "33ac7a95b47b62dd8432fc506d5e14d68b79f3d05706f9afa4b67d52d8138715" "0855e1554e97ae5825c933e024f1753e3f8f776f0543a1f705bba2e2089bc8d2" "de637c659c9d9c267193c93cb25d6f77d4474a7789bc6275bf28cfce6c47060a" "6fd6ca49d4f59fe858093af21dc9920f905c731c9bb76d2ff86c55e402bd0005" "1546e95c27a1435db430f51e29b56e25dc7ac728e8d93a321b335e4a4b2a776b" "938450b22094ad5ce27fc0f34b02ce3b59ed657f465c2def69978de1d01441f9" "c95dcc93c2461f4797e6bd31c02a161f8873553bcc7ad1fb1c2d2d01e9fb9d17" "4f929481b1a1e2805f6b0605c2e6d5f738bfd641e87043c944004aef1dda452d" "8e6bed35c3b64caf840ee621ad3b67294682963b2bde64badd75a02a5a989b47" "020ba2575ec85c1959c2cfe9b56aec5b60d8be59e272e188f81b3547387d03d9" "49409afa74774e29b3f0d301538393ad1345f2fa1a8159474def9d0827cba70f" "afad584649462d8f2962f023b553e302576a944bfd56322204a7b35520b5e7f7" "0e537a9f625048f039177d31bb326b88f67a7c6ceff8462a0b5c820f6eff4351" "e452329d7c2bf500539e3b27bda350f208d17e81afdd56f29338ddc31b699cb3" "a157801211a196be85df0b7d5166f4146ff516927ac1580dfd5a37ff46f1e939" "9e6308cb388d0bcd7a6324c2e40f522808b7ef1f91bfded267260a062cac70a3" "14a4bbd2207617728ea504ea9aa48416999a456db9f10e7d74baab896301d8a3" "543810bda3d88d3172bea79fd4c1446a0f3f7bf2027fb3433283f00c1771b915" "433d465598b5e87b7be36a8b5abc426b056b6b2003e9730af9e4dd93f32a852d" "bb79e50c08c4892a8f4590bb7407de8cfab0dd58be50da6580decb9a28b40ce9" "0c4b0a603732e4fa03d08d44b779267a085161ec97924a0dcaa633484563923f" "1b21a3c27955fc9bcd6d0788fe229c6f33414adda263a15e9382595af4464666" "92b581ca44ae189ae308feb1387634e8798c8f893e0600fc191fe2ddbff0a709" "d3c2c0cdd152897c69597b802b053315531745a5de7415a84b70aca0acf5bd50" "28490858748e0d2ae3d87c8830ec06fc1c4b412939d43d8fe684201550c52741" "12f13ab77ae93adf97039bc8c3f5719eb77b9d9da916374b7c448f2bf176fba6" "7c3baae1d43dee474e1f542a96d2aa65b430338165d5dc5da2e8bffb9e053b4b" "af74d38925129f8be585f85bba5d18fa594ad8ca366a8c892dec6ea615d05be8" "e53f26bf4e436383b3f1015ce0fc73f6049e56594ba754f1fc249b5a24bec277" "c291db4bf2f189ef64314929fcf8df55b3d0b7d05892ba68650d7ae122e2e06d" "b33d7b8560d95aadd7143a06594a960888efff2c755d8fd02a2bd89e097ec81f" "f94b10ce2d675be8406b65d65a5f6e5998abe11a2d3bf41a23ca89e119069598" "6e3e4c96c9badf05266e793f3f33d22d8baeb01762303005c95e954424d3d3b1" "4c6daa4c9ad1239dff90e0d7a5c52ce1304c2a8217c1d89163f1f058537a2728" "ee999c5423403471d1cc197419cace81baa37f4c437fde5cdc68161455411322" "1135c68d913bc0c1c495d61e958782ebccbcfcfd25e9c56f768a739c1359013b" "700a92223ceb4af47e26adf31a2efdf1d282d77b3eadbf11cdbc1b23d9025405" "3d272799b73437e219fb840a7fb9df7df086a5e327694106a6866e6020737e22" "e0a1a9823d9ec86057e258d60c68218b0e6b31f4e197d56554140bdd5d9caa71" "50bda9f8157e84caa7a2edcfae789f090682113e919bd6790d02dc797427c9df" "3791210eaf10dd3cfb5a6fe595b7825750b7bc0ece71f15d8fdf49090c18aa7b" "b04e98efb80c08473b6687253a9f97669fbf0f63f34f2ad51cca77cc6a1756a0" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "d56ab147037efedd59e62451ca370b6d6573f10a07c0114d376d1a1a32563491" "696c7ad6e700206aa3d86a2555e90283f47c521d9188439804cf1a85a0aec758" "78d54007f52f745bb55e95f91390c4b947af59f777e1cd3cbe88204590ae25a0" "2c95cd2a529def31d6a67f87f4a03e967d330be6cb818ef94c068ff4708230db" "325c152851c1038848c4cb04dfa5184f46023d749aafaa7109b9289516831199" "c304e593666ca09232b1b4785876a03415efe834f7cc9af8f3afb6fd43c5ad33" "676fc0d75e7e9f54260c10e388cb925b4ce554fbc93b25da86ad6db47547bed7" "8acff68bb168fa0f5c3d09a4bf338ed8fec9ee464cc6e1cefef441a171a6381b" "6ca2c4437d37cea1cb151749c3585d1ea29fd483b831f7013beeac90081101c2" "07839198ca42eaaa51a28432cb8658ec5fbadbd8a6e6da231f116f7841fee0cb" "51517dac0b5f6b9839b8c2e01e07ada1c9c2440de21eb1fa534718f9aaf13f19" "4fdd3bae4ef37b5b67dccc91557bf069a8ba804723f49b462d69e5a64e298dee" "1caa46cdd3573072d3ac92a2c21474c2e1dad65de9b6d0c7ede64c79e9879f1a" "0d4da8e06207a8ac31c6e8335bcf1481f44f9eb30c065649ae8a9d46803f10ea" "b13ffeb4813ebc7b964dcc39b7c0d77704005acbaf1fcb4ca42e9bb942c82b7a" "ac2ce00fab91c5799e8289dc6be38696efcbf4489eab689e7debfc3e8e3ecc93" "bb6ce5371e43d4fefc4613af95fb2bdca1846c8475df1ee6e5fc520f930a2150"))
+   '("38e9cfe67b00e3c06b790dcacf80063fec1a69cd412e8c06c56394e622b91c49"))
  '(evil-collection-setup-minibuffer t)
  '(flycheck-javascript-flow-args nil)
  '(font-lock-maximum-decoration '((t . t) (dired-mode)))
