@@ -68,9 +68,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
    ispell-dictionary "es_ES"
    help-window-select t))
 
-(use-package highlight-numbers
-  :hook (prog-mode . highlight-numbers-mode))
-
 (use-package multi-line
   :after evil
   :bind (:map global-map
