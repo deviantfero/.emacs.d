@@ -180,9 +180,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
-(use-package evil-magit
-  :after (evil magit))
-
 (use-package evil-surround
   :after evil
   :config (global-evil-surround-mode 1))
