@@ -112,8 +112,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (yas-global-mode 1)
   :bind (:map yas-keymap
-              ("TAB" . nil)
-              ("C-o" . yas-next-field-or-maybe-expand)))
+			  ("TAB" . nil)
+			  ("C-o" . yas-next-field-or-maybe-expand)))
 
 (use-package which-key
   :config (which-key-mode 1))
@@ -126,6 +126,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (require 'smartparens-config)
   (smartparens-global-mode t))
 
+(use-package undo-tree)
 (use-package add-node-modules-path)
 (use-package minions
   :config (minions-mode 1))
@@ -136,11 +137,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :defer 5
   :config
   (with-eval-after-load 'tramp-cache
-    (setq tramp-persistency-file-name "~/.emacs.d/tramp"))
+	(setq tramp-persistency-file-name "~/.emacs.d/tramp"))
   (setq-default projectile-mode-line "Projectile")
   (setq tramp-use-ssh-controlmaster-options nil)
   (setf tramp-persistency-file-name
-        (concat temporary-file-directory "tramp-" (user-login-name))))
+		(concat temporary-file-directory "tramp-" (user-login-name))))
 
 ;;; Evil
 (use-package evil
