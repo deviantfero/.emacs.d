@@ -256,16 +256,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			   `(,(rx bos "*helm" (* not-newline) "*" eos)
 				 (display-buffer-in-side-window)
 				 (inhibit-same-window . t)))
-  (setq helm-autoresize-min-height 20)
-  (setq helm-autoresize-max-height 20)
+  (setq helm-autoresize-min-height 30)
+  (setq helm-autoresize-max-height 30)
   (dolist (action
 		   '(("Display buffer(s) in new window(s) `C-x v'" . my/helm-open-split-vrt)
-			("Display buffer(s) in new window(s) `C-x x'" . my/helm-open-split-hor)))
-		   (add-to-list 'helm-type-buffer-actions action 'append))
+			 ("Display buffer(s) in new window(s) `C-x x'" . my/helm-open-split-hor)))
+	(add-to-list 'helm-type-buffer-actions action 'append))
   (dolist (action
-		   '(("Display buffer(s) in new window(s) `C-x v'" . my/helm-open-split-vrt)
-			("Display buffer(s) in new window(s) `C-x x'" . my/helm-open-split-hor)))
-		   (add-to-list 'helm-find-files-actions action 'append)))
+		   '(("Display files(s) in new window(s) `C-x v'" . my/helm-open-split-vrt)
+			 ("Display files(s) in new window(s) `C-x x'" . my/helm-open-split-hor)))
+	(add-to-list 'helm-find-files-actions action 'append)))
 
 (use-package helm-ag)
 (use-package helm-swoop)
