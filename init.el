@@ -426,8 +426,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package conf-mode
   :mode (("\\.env\\'" . conf-mode))
   :config
-  (setq outline-regexp "[#\f]+")
-  (define-key evil-normal-state-map (kbd "TAB") 'org-cycle))
+  (setq outline-regexp "[#\f]+"))
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode))
@@ -477,12 +476,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :hook (org-mode . visual-line-mode)
   :config
   (setq org-agenda-files
-        (directory-files-recursively "~/org/" "\.org$"))
+		(directory-files-recursively "~/org/" "\.org$"))
   (org-babel-do-load-languages
    'org-babel-load-languages '((shell . t)
-                               (python . t)
-                               (ruby . t)
-                               (C . t)))
+							   (python . t)
+							   (ruby . t)
+							   (C . t)))
   (add-to-list 'org-export-backends 'taskjuggler))
 
 
@@ -492,8 +491,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
+		 ("\\.md\\'" . markdown-mode)
+		 ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown")
   :config (setq outline-regexp "[#\f]+"))
 
@@ -502,20 +501,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (use-package latex
 	:ensure f
-    :config
-    (setq TeX-auto-save t)
-    (setq TeX-parse-self t)
-    (setq-default TeX-master nil)
-    (setq-default TeX-engine "xetex")
-    (setq-default TeX-save-query nil)
-    (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
-    (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-    (add-to-list 'TeX-view-program-list
-                 '("zathura viewer" ("zathura" " %o" (mode-io-correlate " -P %(outpage)")))
-                 (setcdr (assq 'output-pdf TeX-view-program-selection) '("zathura viewer")))))
+	:config
+	(setq TeX-auto-save t)
+	(setq TeX-parse-self t)
+	(setq-default TeX-master nil)
+	(setq-default TeX-engine "xetex")
+	(setq-default TeX-save-query nil)
+	(add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+	(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+	(add-to-list 'TeX-view-program-list
+				 '("zathura viewer" ("zathura" " %o" (mode-io-correlate " -P %(outpage)")))
+				 (setcdr (assq 'output-pdf TeX-view-program-selection) '("zathura viewer")))))
 
-(use-package ox-pandoc
-  :after org)
+;; (use-package ox-pandoc
+;;   :after org)
 
 
 ;;; AUTOMATICALLY GENERATED
@@ -559,7 +558,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(org-agenda-files '("/home/fernando/org/todo.org"))
  '(org-latex-compiler "xelatex")
  '(package-selected-packages
-   '(helm-swoop vterm cider plan9-theme rvm gdscript-mode smartparens evil-vimish-fold cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path swiper dockerfile-mode ox-taskjuggler highlight-numbers powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web company-restclient dired dired-x minions moody which-key tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex restclient company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil))
+   '(meson-mode prettier origami-mode helm-swoop vterm cider plan9-theme rvm gdscript-mode smartparens evil-vimish-fold cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path swiper dockerfile-mode ox-taskjuggler powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web dired dired-x minions moody which-key tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(safe-local-variable-values '((engine . php)))
  '(scroll-bar-mode nil)
