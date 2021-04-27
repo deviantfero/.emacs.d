@@ -334,6 +334,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (flycheck-add-next-checker 'tsx-tide 'javascript-eslint)
   :hook (web-mode . my/activate-tide-mode))
 
+(use-package prettier
+  :hook (web-mode . my/activate-prettier-mode))
+
 (use-package company-web
   :hook
   (mhtml-mode . (lambda () (add-to-list 'company-backends 'company-web-html))))
