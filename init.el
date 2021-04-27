@@ -440,13 +440,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2)
   (setq company-selection-wrap-around t)
-  (setq company-dabbrev-other-buffers nil)
   (company-tng-mode)
   :bind (:map evil-insert-state-map
-              ("C-y" . company-yasnippet)
-              ("C-f" . company-files)
-              ("C-M-y" . yas-expand))
+			  ("C-y" . company-yasnippet)
+			  ("C-f" . company-files)
+			  ("C-M-y" . yas-expand))
   :config
+  (setq company-dabbrev-other-buffers nil)
   (setq company-backends
 		'((company-capf :with company-dabbrev-code :separate)
 		  (company-files :with company-dabbrev-code)
