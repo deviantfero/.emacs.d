@@ -76,11 +76,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			  ("M-j" . multi-line)))
 
 (use-package projectile
+  :init
+  (projectile-mode +1)
   :bind (:map projectile-mode-map
 			  ("<f7>" . projectile-run-vterm)
-              ("C-c p" . projectile-command-map))
+			  ("C-c p" . projectile-command-map))
   :config
-  (projectile-mode))
+  (setq projectile-switch-project-action 'magit-status))
 
 (use-package magit
   :after evil
