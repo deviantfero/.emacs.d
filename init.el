@@ -360,6 +360,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;; C++/C
 (use-package cmake-mode)
+(use-package meson-mode)
+
 (use-package irony
   :hook
   (c++-mode . irony-mode)
