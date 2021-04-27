@@ -84,8 +84,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package magit
   :after evil
+  :config
+  (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
   :bind (:map evil-normal-state-map
-              ("<f9>" . magit-status)))
+			  ("<f9>" . magit-status)))
 
 (use-package dired+
   :after dired
