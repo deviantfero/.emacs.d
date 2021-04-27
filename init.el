@@ -157,8 +157,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "C-w n") 'make-frame-command)
   (define-key evil-normal-state-map (kbd "C-w C-s") 'frameset-to-register)
   (define-key evil-normal-state-map (kbd "C-w C-r") 'jump-to-register)
-  (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)
-  (define-key evil-normal-state-map (kbd "<backtab>") 'org-global-cycle)
   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
@@ -238,15 +236,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package helm
   :after evil
   :bind (:map evil-normal-state-map
-              ("M-k" . helm-do-ag)
-              ("C-f" . helm-find-files)
-              ("C-o" . helm-buffers-list)
-              :map helm-map
-              ("TAB" . helm-execute-persistent-action)
+			  ("M-k" . helm-do-ag)
+			  ("C-f" . helm-find-files)
+			  ("C-o" . helm-buffers-list)
+			  :map helm-map
+			  ("TAB" . helm-execute-persistent-action)
 			  ("C-x v" . helm-open-split-vertical)
 			  ("C-x x" . helm-open-split-horizontal)
-              :map global-map
-              ("M-x" . helm-M-x))
+			  :map global-map
+			  ("M-x" . helm-M-x))
   :config
   (helm-mode 1)
   (setq helm-completion-style 'flex)
@@ -275,7 +273,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package helm-projectile
   :after evil
   :bind (:map evil-normal-state-map
-              ("C-g" . helm-projectile))
+			  ("C-g" . helm-projectile))
   :config
   (helm-projectile-on))
 
@@ -296,14 +294,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (defun my/activate-tide-mode ()
   "Use hl-identifier-mode only on js or ts buffers."
   (when (and (stringp buffer-file-name)
-             (string-match "\\.[tj]sx?\\'" buffer-file-name))
+			 (string-match "\\.[tj]sx?\\'" buffer-file-name))
 	(tide-setup)
-    (tide-hl-identifier-mode)))
+	(tide-hl-identifier-mode)))
 
 (defun my/set-local-eslint ()
   "Use local node_modules."
   (add-node-modules-path)
   (setq-local flycheck-javascript-eslint-executable (executable-find "eslint")))
+
+(defun my/activate-prettier-mode ()
+  "Try to find a prettier configuration if found, load prettier-mode."
+  (let ((config-files '(".prettierrc" ".prettierrc.json" ".prettierrc.yaml" ".prettierrc.js")))
+	(when (seq-some (lambda (elt) (file-exists-p (concat (projectile-project-root) elt))) config-files)
+	  (prettier-mode))))
 
 (use-package web-mode
   :mode
