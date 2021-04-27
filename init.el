@@ -329,12 +329,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq js2-mode-show-strict-warnings nil)
   (setq js2-mode-show-parse-errors 1))
 
-(use-package restclient
-  :mode (("\\.http\\'" . restclient-mode)
-         ("\\.rest\\'" . restclient-mode))
-  :config
-  (setq outline-regexp "#[*\f]+"))
-
 (use-package tide
   :config
   (flycheck-add-next-checker 'tsx-tide 'javascript-eslint)
@@ -439,19 +433,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :mode ("Dockerfile\\'" . dockerfile-mode))
 
 (use-package yaml-mode)
-
-;;; Misc
-(use-package restclient
-  :mode (("\\.http\\'" . restclient-mode)
-         ("\\.rest\\'" . restclient-mode))
-  :config
-  (setq outline-regexp "#[*\f]+"))
-
-
-
-(use-package company-restclient
-  :hook
-  (restclient-mode . (lambda () (add-to-list 'company-backends 'company-restclient))))
 
 ;;; Company
 (use-package company
