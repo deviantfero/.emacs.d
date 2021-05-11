@@ -6,14 +6,18 @@
 (require 'mouse)
 (require 'dired-x)
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-(package-initialize)
-
-(eval-when-compile
-  (require 'use-package)
-  (setq use-package-always-ensure t))
+(condition-case nil
+	(require 'use-package)
+  (file-error
+   (require 'package)
+   (package-initialize)
+   (package-refresh-contents)
+   (package-install 'use-package)
+   (require 'use-package)
+   (setq-default use-package-always-ensure t)))
 
 (dolist (basic-offset '(c-basic-offset sh-basic-offset))
   (defvaralias basic-offset 'tab-width))
@@ -45,7 +49,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (toggle-tool-bar-mode-from-frame -1)
   (winner-mode 1)
   (global-undo-tree-mode)
-  (add-hook 'focus-out-hook #'garbage-collect)
   (add-hook 'after-save-hook #'garbage-collect)
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   (setenv "SHELL" "/usr/bin/bash")
@@ -53,6 +56,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 				'(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
 				  ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
   (setq-default
+   comp-async-report-warnings-errors nil
    explicit-shell-file-name "/usr/bin/bash"
    shell-file-name "bash"
    explicit-bash-args '("--login")
@@ -95,6 +99,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :after dired
   :init (setq diredp-hide-details-initially-flag nil)
   :load-path "~/.emacs.d/packages/dired+")
+
+(use-package too-long-lines-mode
+  :load-path "~/.emacs.d/packages")
 
 (use-package dtrt-indent
   :config
@@ -348,7 +355,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config
   (setq lsp-gopls-codelens nil)
   (setq compile-command "echo Building... && go build -v && echo Testing... && go test -v && echo Linter... && golint")
-  (setq  compilation-read-command nil))
+  (setq compilation-read-command nil))
 
 ;;; GdScript
 (use-package gdscript-mode
@@ -417,7 +424,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :init
   (advice-add 'python-mode :before 'elpy-enable)
   :config
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
+  (setq elpy-modules
+		(seq-difference
+		 elpy-modules '(elpy-module-flymake elpy-module-highlight-indentation))))
 
 ;;; Clojure
 (use-package clojure-mode
@@ -534,7 +543,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(ansi-color-names-vector
    ["#080808" "#d70000" "#67b11d" "#875f00" "#268bd2" "#af00df" "#00ffff" "#b2b2b2"])
  '(custom-safe-themes
-   '("38e9cfe67b00e3c06b790dcacf80063fec1a69cd412e8c06c56394e622b91c49"))
+   '("53e4bfac73305f1e97f47556f2c04463ca5b0edc1f44f418289ed5436befd1f1" "276c60740a58e638a18e803f23b54206a336d3fdefe3380582eaad328e5da5c4" "38e9cfe67b00e3c06b790dcacf80063fec1a69cd412e8c06c56394e622b91c49"))
  '(evil-collection-setup-minibuffer t)
  '(flycheck-javascript-flow-args nil)
  '(font-lock-maximum-decoration '((t . t) (dired-mode)))
@@ -563,7 +572,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(org-agenda-files '("/home/fernando/org/todo.org"))
  '(org-latex-compiler "xelatex")
  '(package-selected-packages
-   '(meson-mode prettier origami-mode helm-swoop vterm cider plan9-theme rvm gdscript-mode smartparens evil-vimish-fold cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path swiper dockerfile-mode ox-taskjuggler powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web dired dired-x minions moody which-key tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil))
+   '(evil-collection meson-mode prettier origami-mode helm-swoop vterm cider plan9-theme rvm gdscript-mode smartparens evil-vimish-fold cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path swiper dockerfile-mode ox-taskjuggler powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web dired dired-x minions moody which-key tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell yaml-mode latex company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets alchemist elixir-mode helm-mode-manager seoul256-theme python-mode react-snippets helm yasnippet-snippets company slime evil))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(safe-local-variable-values '((engine . php)))
  '(scroll-bar-mode nil)
