@@ -169,7 +169,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "ga") 'align-regexp)
   (define-key evil-normal-state-map (kbd "gt") 'other-frame)
   (define-key evil-normal-state-map (kbd "C-w n") 'make-frame-command)
-  (define-key evil-normal-state-map (kbd "C-w C-s") 'frameset-to-register)
   (define-key evil-normal-state-map (kbd "C-w C-r") 'jump-to-register)
   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
@@ -177,6 +176,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
   (define-key evil-normal-state-map (kbd "M-u") 'winner-undo)
   (define-key evil-normal-state-map (kbd "M-r") 'winner-redo)
+  (define-key evil-normal-state-map (kbd "SPC r") 'reload-wpgtk)
   (evil-define-key 'normal lsp-mode-map (kbd "K") 'lsp-describe-thing-at-point)
   (evil-define-key 'normal lsp-mode-map (kbd "\\") lsp-command-map))
 
@@ -550,7 +550,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(ansi-color-names-vector
    ["#080808" "#d70000" "#67b11d" "#875f00" "#268bd2" "#af00df" "#00ffff" "#b2b2b2"])
  '(custom-safe-themes
-   '("53e4bfac73305f1e97f47556f2c04463ca5b0edc1f44f418289ed5436befd1f1" "276c60740a58e638a18e803f23b54206a336d3fdefe3380582eaad328e5da5c4" "38e9cfe67b00e3c06b790dcacf80063fec1a69cd412e8c06c56394e622b91c49"))
+   '("94051931eb6d7ab1c179d78541236bae2400069090a06cc2e4d2af6af3a40394" "e469d0e990276050b764cab2a8aa494073ac41eb80ab4d3aaa71b6be4423e61d" "30de4f2306b796f08d5a3d3ca4f421821e5d4aa57fe4d7f4185bdfb6ed203b19" "305a59b6611fc6bd89dd4cd2262e92bb2d63f319e2339656892dd7923ddb2edc" "9579ff08483c2ae9b4880a093baaea1d2bb77722dd08188fc57073f4b5133fc1" "fd2145d7d991e8a6a80db6ff685e39faadca62fae054b59b247777d366ee4cfe" "488c9c90edbd59f8123f9c579cc37310d842b5be80a744ce592253fcb98628d6" "ca49819fcc831b2800c6701282d4517cd9bc97603b8d5d8f91102f230e09321b" "ddff22007104a1317014e48ff3d4911a83771a4ccf57185ccebf7f91339dbfb8" "0f7fa4835d02a927d7d738a0d2d464c38be079913f9d4aba9c97f054e67b8db9" "10632105e0cfbf67f7c222cca9441808021c75ce60c3db5ac5f0d54737746ca2"))
  '(evil-collection-setup-minibuffer t)
  '(flycheck-javascript-flow-args nil)
  '(font-lock-maximum-decoration '((t . t) (dired-mode)))
