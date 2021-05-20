@@ -31,6 +31,11 @@
 	  (write-file (concat "/sudo:root@localhost:" (ido-read-file-name)))
 	(write-file (concat "/sudo:root@localhost:" (buffer-file-name)))))
 
+(defun reload-wpgtk ()
+  "Reload current theme."
+  (interactive)
+  (load-theme 'wpgtk t))
+
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
 In Delete Selection mode, if the mark is active, just deactivate it;
