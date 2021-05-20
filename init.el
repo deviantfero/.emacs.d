@@ -72,6 +72,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
    ispell-dictionary "es_ES"
    help-window-select t))
 
+(use-package edit-indirect)
 (use-package multi-line
   :after evil
   :bind (:map global-map
