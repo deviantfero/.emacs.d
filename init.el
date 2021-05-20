@@ -8,6 +8,7 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'term-file-aliases '("alacritty" . "xterm"))
 
 (condition-case nil
 	(require 'use-package)
