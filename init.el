@@ -56,7 +56,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 				'(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
 				  ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
   (setq-default
-   comp-async-report-warnings-errors nil
+   native-comp-async-report-warnings-errors nil
    explicit-shell-file-name "/usr/bin/bash"
    shell-file-name "bash"
    explicit-bash-args '("--login")
