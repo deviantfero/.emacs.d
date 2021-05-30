@@ -13,3 +13,6 @@ irony/
 /transient/
 /network-security.data
 /elixir/
+/image-dired/
+/eln-cache/
+/forge-database.sqlite
