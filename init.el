@@ -200,14 +200,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package evil-visualstar
   :config (global-evil-visualstar-mode))
 
-(use-package vimish-fold
-  :after evil)
-
-(use-package evil-vimish-fold
-  :after vimish-fold
-  :config
-  (global-evil-vimish-fold-mode))
-
 ;;; Helm
 (defun my/helm-open-split-vrt (_candidate)
   "Opens a file or a buffer in a vertically split window to the right."
