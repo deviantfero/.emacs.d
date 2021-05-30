@@ -41,8 +41,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;; Feature Packages
 (use-package emacs
+  :ensure nil
   :init
-  (load-theme 'wpgtk t)
   (column-number-mode 1)
   (show-paren-mode 1)
   (menu-bar-mode -1)
@@ -52,6 +52,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (add-hook 'after-save-hook #'garbage-collect)
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   (setenv "SHELL" "/usr/bin/bash")
+  (load-theme 'wpgtk t)
   (setq-default ispell-local-dictionary-alist
 				'(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
 				  ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
