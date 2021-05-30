@@ -98,11 +98,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			  ("<f9>" . magit-status)))
 
 (use-package dired+
+  :ensure nil
   :after dired
   :init (setq diredp-hide-details-initially-flag nil)
   :load-path "~/.emacs.d/packages/dired+")
 
 (use-package too-long-lines-mode
+  :ensure nil
   :load-path "~/.emacs.d/packages")
 
 (use-package dtrt-indent
@@ -143,6 +145,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;; Tramp
 (use-package docker-tramp)
 (use-package tramp
+  :ensure nil
   :defer 5
   :config
   (with-eval-after-load 'tramp-cache
@@ -357,10 +360,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :hook (gdscript-mode . lsp))
 
 ;;; Elixir
-(use-package elixir-mode)
-(use-package alchemist
-  :hook
-  (elixir-mode . (lambda () (add-to-list 'company-backends 'alchemist-company))))
+(use-package elixir-mode
+  :init (add-to-list 'exec-path "~/.emacs.d/elixir")
+  :hook (elixir-mode . lsp))
 
 ;;; C++/C
 (use-package cmake-mode)
