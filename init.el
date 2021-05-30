@@ -10,15 +10,9 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'term-file-aliases '("alacritty" . "xterm"))
 
-(condition-case nil
-	(require 'use-package)
-  (file-error
-   (require 'package)
-   (package-initialize)
-   (package-refresh-contents)
-   (package-install 'use-package)
-   (require 'use-package)
-   (setq-default use-package-always-ensure t)))
+(eval-when-compile
+  (require 'use-package)
+  (setq use-package-always-ensure t))
 
 (dolist (basic-offset '(c-basic-offset sh-basic-offset))
   (defvaralias basic-offset 'tab-width))
