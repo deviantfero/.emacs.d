@@ -270,7 +270,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package helm-ag)
 (use-package helm-swoop)
-
 (use-package helm-projectile
   :after evil
   :bind (:map evil-normal-state-map
@@ -310,6 +309,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(when (seq-some (lambda (elt) (file-exists-p (concat (projectile-project-root) elt))) config-files)
 	  (prettier-mode))))
 
+(use-package add-node-modules-path)
 (use-package web-mode
   :mode
   ("\\.ejs\\'" "\\.vue\\'" "\\.erb\\'" "\\.hbs\\'" "\\.html\\'" "\\.php\\'" "\\.[jt]sx?\\'")
@@ -402,6 +402,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map))
 
 (use-package ruby-mode
+  :ensure nil
   :config
   (setq ruby-insert-encoding-magic-comment nil)
   :hook (ruby-mode . lsp))
@@ -432,6 +433,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;; Conf-files
 (use-package conf-mode
+  :ensure nil
   :mode (("\\.env\\'" . conf-mode))
   :config
   (setq outline-regexp "[#\f]+"))
@@ -479,6 +481,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;; Org
 (use-package org
+  :ensure nil
   :mode ("\\.org\\'" . org-mode)
   :bind (("C-c a" . org-agenda))
   :hook (org-mode . visual-line-mode)
