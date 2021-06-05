@@ -57,6 +57,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 				'(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
 				  ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
   (setq-default
+   gc-cons-threshold 100000000
+   read-process-output-max (* 1024 1024)
    native-comp-async-report-warnings-errors nil
    explicit-shell-file-name "/usr/bin/bash"
    shell-file-name "bash"
