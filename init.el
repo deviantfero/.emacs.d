@@ -118,7 +118,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config (xclip-mode 1))
 
 (use-package vterm
+  :hook
+  (vterm-mode . evil-emacs-state)
+  (vterm-copy-mode . meliache/evil-normal-in-vterm-copy-mode)
   :config
+  (defun meliache/evil-normal-in-vterm-copy-mode ()
+    (if (bound-and-true-p vterm-copy-mode)
+        (evil-normal-state)
+      (evil-emacs-state)))
   (setq vterm-shell "/bin/zsh"))
 
 (use-package yasnippet
