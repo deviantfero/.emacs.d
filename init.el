@@ -508,7 +508,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :mode (("README\\.md\\'" . gfm-mode)
 		 ("\\.md\\'" . markdown-mode)
 		 ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown")
+  :init (setq markdown-command "pandoc")
   :config (setq outline-regexp "[#\f]+"))
 
 (use-package tex
