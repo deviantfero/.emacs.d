@@ -90,7 +90,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			  ("<f7>" . projectile-run-vterm)
 			  ("C-c p" . projectile-command-map))
   :config
-  (setq projectile-switch-project-action 'magit-status))
+  (setq projectile-switch-project-action 'projectile-dired))
 
 (use-package magit
   :after evil
@@ -183,7 +183,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
   (define-key evil-normal-state-map (kbd "M-u") 'winner-undo)
   (define-key evil-normal-state-map (kbd "M-r") 'winner-redo)
-  (define-key evil-normal-state-map (kbd "SPC r") 'reload-wpgtk)
   (evil-define-key 'normal lsp-mode-map (kbd "K") 'lsp-describe-thing-at-point)
   (evil-define-key 'normal lsp-mode-map (kbd "\\") lsp-command-map))
 
@@ -208,10 +207,29 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :config (evil-commentary-mode 1))
 
 (use-package evil-matchit
+  :after evil
   :config (global-evil-matchit-mode 1))
 
 (use-package evil-visualstar
+  :after evil
   :config (global-evil-visualstar-mode))
+
+(use-package evil-leader
+  :config
+  (global-evil-leader-mode)
+  (setq evil-leader/in-all-states t)
+  (evil-leader/set-key
+	"b" 'switch-to-buffer
+	"r" 'reload-wpgtk
+	"k" 'kill-buffer
+	"p" 'projectile-switch-project
+	"h" 'evil-window-left
+	"j" 'evil-window-down
+	"k" 'evil-window-up
+	"l" 'evil-window-right
+	"gt" 'other-frame
+	"ws" 'evil-window-split
+	"wv" 'evil-window-vsplit))
 
 ;;; Helm
 (defun my/helm-open-split-vrt (_candidate)
