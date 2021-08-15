@@ -16,3 +16,5 @@ irony/
 /image-dired/
 /eln-cache/
 /forge-database.sqlite
+/.cache/
+/eclipse.jdt.ls/
