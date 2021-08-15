@@ -232,37 +232,28 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	"wv" 'evil-window-vsplit))
 
 ;;; Helm
-(defun my/helm-open-split-vrt (_candidate)
-  "Opens a file or a buffer in a vertically split window to the right."
+;;; TODO: add custom vterm only buffer list
+(defun my/helm-open-split (split-window-function)
   (require 'winner)
-  (dolist (buf (helm-marked-candidates))
-	(select-window (split-window-right))
-	(if (stringp buf)
-		(find-file buf)
-	  (switch-to-buffer buf)))
-  (balance-windows))
-
-(defun my/helm-open-split-hor (_candidate)
-  "Opens a file or a buffer in a horizontally split window bellow."
-  (require 'winner)
-  (dolist (buf (helm-marked-candidates))
-	(select-window (split-window-below))
-	(if (stringp buf)
-		(find-file buf)
-	  (switch-to-buffer buf)))
-  (balance-windows))
+  (lambda (_candidate)
+	(dolist (buf (helm-marked-candidates))
+	  (select-window (funcall split-window-function))
+	  (if (stringp buf)
+		  (find-file buf)
+		(switch-to-buffer buf)))
+	(balance-windows)))
 
 (defun helm-open-split-horizontal ()
   "Keybinded function to call horizontal split on helm."
   (interactive)
   (with-helm-alive-p
-	(helm-quit-and-execute-action 'my/helm-open-split-hor)))
+	(helm-quit-and-execute-action (my/helm-open-split 'split-window-below))))
 
 (defun helm-open-split-vertical ()
   "Keybinded function to call vertical split on helm."
   (interactive)
   (with-helm-alive-p
-	(helm-quit-and-execute-action 'my/helm-open-split-vrt)))
+	(helm-quit-and-execute-action (my/helm-open-split 'split-window-right))))
 
 (use-package helm
   :after evil
@@ -278,25 +269,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			  ("M-x" . helm-M-x))
   :config
   (helm-mode 1)
-  (setq helm-completion-style 'flex)
-  (setq helm-split-window-inside-p t)
-  (setq helm-display-header-line nil)
-  (setq helm-full-frame nil)
-  (helm-autoresize-mode t)
-  (add-to-list 'display-buffer-alist
-			   `(,(rx bos "*helm" (* not-newline) "*" eos)
-				 (display-buffer-in-side-window)
-				 (inhibit-same-window . t)))
-  (setq helm-autoresize-min-height 30)
-  (setq helm-autoresize-max-height 30)
-  (dolist (action
-		   '(("Display buffer(s) in new window(s) `C-x v'" . my/helm-open-split-vrt)
-			 ("Display buffer(s) in new window(s) `C-x x'" . my/helm-open-split-hor)))
-	(add-to-list 'helm-type-buffer-actions action 'append))
-  (dolist (action
-		   '(("Display files(s) in new window(s) `C-x v'" . my/helm-open-split-vrt)
-			 ("Display files(s) in new window(s) `C-x x'" . my/helm-open-split-hor)))
-	(add-to-list 'helm-find-files-actions action 'append)))
+  (setq helm-completion-style 'flex
+		helm-split-window-inside-p nil
+		helm-display-header-line nil
+		helm-display-buffer-reuse-frame t
+		helm-full-frame nil
+		helm-split-window-default-side 'same))
 
 (use-package helm-ag)
 (use-package helm-swoop)
