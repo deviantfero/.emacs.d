@@ -128,13 +128,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       (evil-emacs-state)))
   (setq vterm-shell "/bin/zsh"))
 
-(use-package yasnippet
-  :config
-  (yas-global-mode 1)
-  :bind (:map yas-keymap
-			  ("TAB" . nil)
-			  ("C-o" . yas-next-field-or-maybe-expand)))
-
 (use-package which-key
   :config (which-key-mode 1))
 
@@ -150,6 +143,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package add-node-modules-path)
 (use-package minions
   :config (minions-mode 1))
+
+;;; YASnippet
+(use-package yasnippet
+  :config
+  (yas-global-mode)
+  :bind (:map yas-keymap
+			  ("TAB" . nil)
+			  ("C-o" . yas-next-field-or-maybe-expand)))
+
+(use-package yasnippet-classic-snippets)
 
 ;;; Tramp
 (use-package docker-tramp)
@@ -232,7 +235,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	"wv" 'evil-window-vsplit))
 
 ;;; Helm
-;;; TODO: add custom vterm only buffer list
 (defun my/helm-open-split (split-window-function)
   (require 'winner)
   (lambda (_candidate)
@@ -255,8 +257,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (with-helm-alive-p
 	(helm-quit-and-execute-action (my/helm-open-split 'split-window-right))))
 
+(defun helm-vterm-buffers-list ()
+  (interactive)
+  (require 'helm)
+  (helm :sources helm-source-vterm-buffers-list
+        :keymap helm-buffer-map
+        :truncate-lines helm-buffers-truncate-lines))
+
 (use-package helm
-  :after evil
   :bind (:map evil-normal-state-map
 			  ("M-k" . helm-do-ag)
 			  ("C-f" . helm-find-files)
@@ -266,9 +274,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			  ("C-x v" . helm-open-split-vertical)
 			  ("C-x x" . helm-open-split-horizontal)
 			  :map global-map
-			  ("M-x" . helm-M-x))
+			  ("M-x" . helm-M-x)
+			  ("C-x t" . helm-vterm-buffers-list))
   :config
   (helm-mode 1)
+  (setq helm-source-vterm-buffers-list
+		(helm-make-source "Vterm Buffers" 'helm-source-buffers
+		  :buffer-list
+		  (lambda ()
+			(mapcar #'buffer-name
+					(cl-remove-if-not
+					 (lambda (buf)
+					   (with-current-buffer buf
+						 (eq major-mode 'vterm-mode)))
+					 (buffer-list))))))
   (setq helm-completion-style 'flex
 		helm-split-window-inside-p nil
 		helm-display-header-line nil
@@ -279,7 +298,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package helm-ag)
 (use-package helm-swoop)
 (use-package helm-projectile
-  :after evil
   :bind (:map evil-normal-state-map
 			  ("C-g" . helm-projectile))
   :config
