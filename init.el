@@ -146,11 +146,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;; YASnippet
 (use-package yasnippet
+  :after evil company
   :config
-  (yas-global-mode)
+  (yas-global-mode t)
   :bind (:map yas-keymap
 			  ("TAB" . nil)
-			  ("C-o" . yas-next-field-or-maybe-expand)))
+			  ("C-o" . yas-next-field-or-maybe-expand)
+			  :map evil-insert-state-map
+			  ("C-y" . company-yasnippet)
+			  ("C-M-y" . yas-expand)))
 
 (use-package yasnippet-classic-snippets)
 
@@ -486,9 +490,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq company-selection-wrap-around t)
   (company-tng-mode)
   :bind (:map evil-insert-state-map
-			  ("C-y" . company-yasnippet)
-			  ("C-f" . company-files)
-			  ("C-M-y" . yas-expand))
+			  ("C-f" . company-files))
   :config
   (setq company-dabbrev-other-buffers nil)
   (setq company-backends
