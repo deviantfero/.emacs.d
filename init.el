@@ -5,6 +5,13 @@
 (require 'package)
 (require 'mouse)
 (require 'dired-x)
+(require 'find-lisp)
+
+(defun load-directory (directory)
+  "Load every elisp file under the indicated DIRECTORY."
+  (mapcar
+   (lambda (fn) (load (file-name-sans-extension fn)))
+   (find-lisp-find-files directory "\\.el\\'")))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -17,133 +24,9 @@
 (dolist (basic-offset '(c-basic-offset sh-basic-offset))
   (defvaralias basic-offset 'tab-width))
 
-;;; Custom functions
-(defun sudo-write ()
-  "Use TRAMP to open a file with write access using sudo."
-  (interactive)
-  (if (not buffer-file-name)
-	  (write-file (concat "/sudo:root@localhost:" (ido-read-file-name)))
-	(write-file (concat "/sudo:root@localhost:" (buffer-file-name)))))
-
-(defun reload-wpgtk ()
-  "Reload current theme."
-  (interactive)
-  (load-theme 'wpgtk t))
-
-(defun minibuffer-keyboard-quit ()
-  "Abort recursive edit.
-In Delete Selection mode, if the mark is active, just deactivate it;
-then it takes a second \\[keyboard-quit] to abort the minibuffer."
-  (interactive)
-  (if (and delete-selection-mode transient-mark-mode mark-active)
-	  (setq deactivate-mark  t)
-	(when (get-buffer "*Completions*") (delete-windows-on "*Completions*")) (abort-recursive-edit)))
+(load-directory "~/.emacs.d/config")
 
 ;;; Feature Packages
-(use-package emacs
-  :ensure nil
-  :init
-  (column-number-mode 1)
-  (show-paren-mode 1)
-  (menu-bar-mode -1)
-  (toggle-tool-bar-mode-from-frame -1)
-  (winner-mode 1)
-  (global-undo-tree-mode)
-  (add-hook 'after-save-hook #'garbage-collect)
-  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-  (setenv "SHELL" "/usr/bin/bash")
-  (load-theme 'wpgtk t)
-  (setq-default ispell-local-dictionary-alist
-				'(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
-				  ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
-  (setq-default
-   gc-cons-threshold 100000000
-   read-process-output-max (* 1024 1024)
-   native-comp-async-report-warnings-errors nil
-   explicit-shell-file-name "/usr/bin/bash"
-   shell-file-name "bash"
-   explicit-bash-args '("--login")
-   backup-directory-alist '(("." . "~/.emacs.d/saves"))
-   backup-by-copying t
-   auto-save-default nil
-   create-lockfiles nil
-   inhibit-startup-message t
-   tab-width 4
-   blink-matching-paren nil
-   toggle-scroll-bar nil
-   ispell-program-name (executable-find "hunspell")
-   ispell-dictionary "es_ES"
-   help-window-select t))
-
-(use-package edit-indirect)
-(use-package multi-line
-  :after evil
-  :bind (:map global-map
-			  ("C-c d" . multi-line)
-			  :map evil-normal-state-map
-			  ("M-j" . multi-line)))
-
-(use-package projectile
-  :init
-  (projectile-mode +1)
-  :bind (:map projectile-mode-map
-			  ("<f7>" . projectile-run-vterm)
-			  ("C-c p" . projectile-command-map))
-  :config
-  (setq projectile-switch-project-action 'projectile-dired))
-
-(use-package magit
-  :after evil
-  :config
-  (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-  :bind (:map evil-normal-state-map
-			  ("<f9>" . magit-status)))
-
-(use-package dired+
-  :ensure nil
-  :after dired
-  :init (setq diredp-hide-details-initially-flag nil)
-  :load-path "~/.emacs.d/packages/dired+")
-
-(use-package too-long-lines-mode
-  :ensure nil
-  :load-path "~/.emacs.d/packages")
-
-(use-package dtrt-indent
-  :config
-  (setq dtrt-indent-min-quality 90.0)
-  (dtrt-indent-global-mode 1))
-
-(use-package xclip
-  :config (xclip-mode 1))
-
-(use-package vterm
-  :hook
-  (vterm-mode . evil-emacs-state)
-  (vterm-copy-mode . meliache/evil-normal-in-vterm-copy-mode)
-  :config
-  (defun meliache/evil-normal-in-vterm-copy-mode ()
-    (if (bound-and-true-p vterm-copy-mode)
-        (evil-normal-state)
-      (evil-emacs-state)))
-  (setq vterm-shell "/bin/zsh"))
-
-(use-package which-key
-  :config (which-key-mode 1))
-
-(use-package smartparens
-  :config
-  (setq sp-show-pair-from-inside nil)
-  (setq sp-autoskip-closing-pair 'always)
-  (setq sp-cancel-autoskip-on-backward-movement t)
-  (require 'smartparens-config)
-  (smartparens-global-mode t))
-
-(use-package undo-tree)
-(use-package add-node-modules-path)
-(use-package minions
-  :config (minions-mode 1))
-
 ;;; YASnippet
 (use-package yasnippet
   :after evil company
@@ -157,172 +40,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			  ("C-M-y" . yas-expand)))
 
 (use-package yasnippet-classic-snippets)
-
-;;; Tramp
-(use-package docker-tramp)
-(use-package tramp
-  :ensure nil
-  :defer 5
-  :config
-  (with-eval-after-load 'tramp-cache
-	(setq tramp-persistency-file-name "~/.emacs.d/tramp"))
-  (setq-default projectile-mode-line "Projectile")
-  (setq tramp-use-ssh-controlmaster-options nil)
-  (setf tramp-persistency-file-name
-		(concat temporary-file-directory "tramp-" (user-login-name))))
-
-;;; Evil
-(use-package evil
-  :init
-  (setq evil-want-keybinding nil)
-  :config
-  (evil-mode 1)
-  (evil-set-undo-system 'undo-tree)
-  (define-key evil-normal-state-map (kbd "<f5>") 'compile)
-  (define-key evil-normal-state-map (kbd "-") 'dired-jump)
-  (define-key evil-normal-state-map (kbd "ga") 'align-regexp)
-  (define-key evil-normal-state-map (kbd "gt") 'other-frame)
-  (define-key evil-normal-state-map (kbd "C-w n") 'make-frame-command)
-  (define-key evil-normal-state-map (kbd "C-w C-r") 'jump-to-register)
-  (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-  (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-  (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-  (define-key evil-normal-state-map (kbd "M-u") 'winner-undo)
-  (define-key evil-normal-state-map (kbd "M-r") 'winner-redo)
-  (evil-define-key 'normal lsp-mode-map (kbd "K") 'lsp-describe-thing-at-point)
-  (evil-define-key 'normal lsp-mode-map (kbd "\\") lsp-command-map))
-
-(use-package evil-collection
-  :custom (evil-collection-setup-minibuffer t)
-  :init (evil-collection-init))
-
-(use-package evil-org
-  :hook
-  (org-mode . evil-org-mode)
-  (evil-org-mode . (lambda () (evil-org-set-key-theme)))
-  :config
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
-
-(use-package evil-surround
-  :after evil
-  :config (global-evil-surround-mode 1))
-
-(use-package evil-commentary
-  :after evil
-  :config (evil-commentary-mode 1))
-
-(use-package evil-matchit
-  :after evil
-  :config (global-evil-matchit-mode 1))
-
-(use-package evil-visualstar
-  :after evil
-  :config (global-evil-visualstar-mode))
-
-(use-package evil-leader
-  :config
-  (global-evil-leader-mode)
-  (setq evil-leader/in-all-states t)
-  (evil-leader/set-key
-	"b" 'switch-to-buffer
-	"r" 'reload-wpgtk
-	"k" 'kill-buffer
-	"p" 'projectile-switch-project
-	"h" 'evil-window-left
-	"j" 'evil-window-down
-	"k" 'evil-window-up
-	"l" 'evil-window-right
-	"gt" 'other-frame
-	"ws" 'evil-window-split
-	"wv" 'evil-window-vsplit))
-
-;;; Helm
-(defun my/helm-open-split (split-window-function)
-  (require 'winner)
-  (lambda (_candidate)
-	(dolist (buf (helm-marked-candidates))
-	  (select-window (funcall split-window-function))
-	  (if (stringp buf)
-		  (find-file buf)
-		(switch-to-buffer buf)))
-	(balance-windows)))
-
-(defun helm-open-split-horizontal ()
-  "Keybinded function to call horizontal split on helm."
-  (interactive)
-  (with-helm-alive-p
-	(helm-quit-and-execute-action (my/helm-open-split 'split-window-below))))
-
-(defun helm-open-split-vertical ()
-  "Keybinded function to call vertical split on helm."
-  (interactive)
-  (with-helm-alive-p
-	(helm-quit-and-execute-action (my/helm-open-split 'split-window-right))))
-
-(defun helm-vterm-buffers-list ()
-  (interactive)
-  (require 'helm)
-  (helm :sources helm-source-vterm-buffers-list
-        :keymap helm-buffer-map
-        :truncate-lines helm-buffers-truncate-lines))
-
-(use-package helm
-  :bind (:map evil-normal-state-map
-			  ("M-k" . helm-do-ag)
-			  ("C-f" . helm-find-files)
-			  ("C-o" . helm-buffers-list)
-			  :map helm-map
-			  ("TAB" . helm-execute-persistent-action)
-			  ("C-x v" . helm-open-split-vertical)
-			  ("C-x x" . helm-open-split-horizontal)
-			  :map global-map
-			  ("M-x" . helm-M-x)
-			  ("C-x t" . helm-vterm-buffers-list))
-  :config
-  (helm-mode 1)
-  (setq helm-source-vterm-buffers-list
-		(helm-make-source "Vterm Buffers" 'helm-source-buffers
-		  :buffer-list
-		  (lambda ()
-			(mapcar #'buffer-name
-					(cl-remove-if-not
-					 (lambda (buf)
-					   (with-current-buffer buf
-						 (eq major-mode 'vterm-mode)))
-					 (buffer-list))))))
-  (setq helm-completion-style 'flex
-		helm-split-window-inside-p nil
-		helm-display-header-line nil
-		helm-display-buffer-reuse-frame t
-		helm-full-frame nil
-		helm-split-window-default-side 'same))
-
-(use-package helm-ag)
-(use-package helm-swoop)
-(use-package helm-projectile
-  :bind (:map evil-normal-state-map
-			  ("C-g" . helm-projectile))
-  :config
-  (helm-projectile-on))
-
-;;; lsp
-(use-package lsp-mode
-  :commands lsp
-  :config
-  (setq lsp-headerline-breadcrumb-enable nil))
-
-(use-package lsp-ui
-  :hook
-  (lsp-mode . lsp-ui-mode)
-  :config
-  (setq lsp-ui-doc-enable nil)
-  (setq lsp-ui-sideline-enable nil))
-
-(use-package dap-mode
-  :after lsp-mode
-  :config (dap-auto-configure-mode))
 
 ;;; Javascript/HTML/REST
 (defun my/activate-tide-mode ()
@@ -586,7 +303,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(org-agenda-files '("/home/fernando/org/todo.org"))
  '(org-latex-compiler "xelatex")
  '(package-selected-packages
-   '(lsp-java dap-java evil-leader evil-collection meson-mode prettier origami-mode helm-swoop vterm cider plan9-theme rvm gdscript-mode smartparens cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path dockerfile-mode ox-taskjuggler powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web dired dired-x minions moody which-key tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell latex company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets helm-mode-manager seoul256-theme python-mode react-snippets yasnippet-snippets company slime evil))
+   '(## csv-mode lsp-java dap-java evil-leader evil-collection meson-mode prettier origami-mode helm-swoop vterm cider plan9-theme rvm gdscript-mode smartparens cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path dockerfile-mode ox-taskjuggler powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web dired dired-x minions moody which-key tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell latex company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets helm-mode-manager seoul256-theme python-mode react-snippets yasnippet-snippets company slime evil))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(safe-local-variable-values '((engine . php)))
  '(scroll-bar-mode nil)
