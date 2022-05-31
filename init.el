@@ -84,11 +84,27 @@
 
 (use-package tide
   :config
-  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint)
+  (flycheck-define-generic-checker 'tsx-ts-tide
+	"A TSX syntax checker using tsserver."
+	:start #'tide-flycheck-start
+	:verify #'tide-flycheck-verify
+	:modes '(web-mode typescript-mode)
+	:predicate (lambda ()
+				 (and
+				  (or (tide-file-extension-p "tsx") (tide-file-extension-p "ts"))
+				  (tide-flycheck-predicate))))
+  (add-to-list 'flycheck-checkers 'tsx-ts-tide t)
+  (flycheck-add-next-checker 'javascript-eslint 'tsx-ts-tide)
   :hook (web-mode . my/activate-tide-mode))
 
 (use-package prettier
-  :hook (web-mode . my/activate-prettier-mode))
+  :hook
+  (web-mode . my/activate-prettier-mode)
+  (scss-mode . my/activate-prettier-mode))
+
+(use-package scss-mode
+  :config
+  (setq scss-compile-at-save nil))
 
 (use-package company-web
   :hook

@@ -57,7 +57,7 @@
 					   (with-current-buffer buf
 						 (eq major-mode 'vterm-mode)))
 					 (buffer-list))))))
-  (setq helm-completion-style 'flex
+  (setq helm-completion-style 'emacs
 		helm-split-window-inside-p nil
 		helm-display-header-line nil
 		helm-display-buffer-reuse-frame t

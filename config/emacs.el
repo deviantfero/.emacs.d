@@ -12,12 +12,11 @@
   (menu-bar-mode -1)
   (toggle-tool-bar-mode-from-frame -1)
   (winner-mode 1)
-  (global-undo-tree-mode)
   (add-hook 'after-save-hook #'garbage-collect)
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   (setenv "SHELL" "/usr/bin/bash")
   (load-theme 'wpgtk t)
-  (add-to-list 'default-frame-alist '(font . "Go Mono-10"))
+  (add-to-list 'default-frame-alist '(font . "Sf Mono-10"))
   (setq-default ispell-local-dictionary-alist
 				'(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
 				  ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
@@ -26,6 +25,7 @@
    read-process-output-max (* 1024 1024)
    native-comp-async-report-warnings-errors nil
    explicit-shell-file-name "/usr/bin/bash"
+   package-native-compile t
    shell-file-name "bash"
    explicit-bash-args '("--login")
    backup-directory-alist '(("." . "~/.emacs.d/saves"))
@@ -89,8 +89,9 @@
   (defun meliache/evil-normal-in-vterm-copy-mode ()
     (if (bound-and-true-p vterm-copy-mode)
         (evil-normal-state)
-      (evil-emacs-state)))
-  (setq vterm-shell "/bin/zsh"))
+      (evil-insert-state)))
+  (setq vterm-shell "/bin/zsh")
+  (setq vterm-buffer-name-string "vterm: %s"))
 
 (use-package which-key
   :config (which-key-mode 1))
@@ -103,9 +104,18 @@
   (require 'smartparens-config)
   (smartparens-global-mode t))
 
-(use-package undo-tree)
+(use-package undo-tree
+  :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+  (global-undo-tree-mode))
 (use-package add-node-modules-path)
 (use-package minions
   :config (minions-mode 1))
+
+(use-package ace-window
+  :config
+  (setq aw-scope 'frame)
+  :bind (:map global-map
+			  ("C-x o" . ace-window)))
 
 ;;; emacs.el ends here
