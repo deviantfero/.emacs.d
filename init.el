@@ -227,10 +227,11 @@
 			  ("C-f" . company-files))
   :config
   (setq company-dabbrev-other-buffers nil)
+  (setq company-dabbrev-code-other-buffers t)
   (setq company-backends
 		'((company-capf :with company-dabbrev-code :separate)
 		  (company-files :with company-dabbrev-code)
-		  (company-nxml company-dabbrev-code company-keywords :with company-yasnippet)
+		  (company-etags :with company-dabbrev-code :separate)
 		  (company-oddmuse :with company-yasnippet)
 		  (company-dabbrev :with company-yasnippet)))
   (global-company-mode 1))
@@ -314,18 +315,18 @@
  '(font-lock-maximum-decoration '((t . t) (dired-mode)))
  '(global-evil-mc-mode t)
  '(global-origami-mode t)
- '(helm-completion-style 'emacs)
  '(helm-minibuffer-history-key "M-p")
  '(magit-diff-section-arguments '("--no-ext-diff"))
  '(org-agenda-files '("/home/fernando/org/todo.org"))
  '(org-latex-compiler "xelatex")
  '(package-selected-packages
-   '(## csv-mode lsp-java dap-java evil-leader evil-collection meson-mode prettier origami-mode helm-swoop vterm cider plan9-theme rvm gdscript-mode smartparens cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path dockerfile-mode ox-taskjuggler powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web dired dired-x minions moody which-key tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell latex company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets helm-mode-manager seoul256-theme python-mode react-snippets yasnippet-snippets company slime evil))
+   '(ivy-posframe ivy-rich counsel-projectile counsel counsel-find-file exec-path-from-shell lsp-dart flutter dart-mode rainbow-mode ## csv-mode lsp-java dap-java evil-leader evil-collection meson-mode prettier origami-mode helm-swoop vterm cider plan9-theme rvm gdscript-mode smartparens cargo winner-mode lsp-ui lsp-mode lsp flycheck-rust graphql-mode multi-line helm-ag add-node-modules-path dockerfile-mode ox-taskjuggler powerline evil-visualstar elpy evil-matchit smart-parens go-mode web-mode html-mode company-web dired dired-x minions moody which-key tide flycheck-irony space-line flycheck-pkg-config cmake-mode evil-magit async with-editor mmm-mode ssass-mode edit-indirect bind-key undo-tree tablist rich-minority s faceup quelpa dash f pythonic deferred python-environment epl pkg-info pos-tip popup markdown-mode magit-popup ghub git-commit json-snatcher json-reformat concurrent ctable epc jedi-core helm-core goto-chg evil-org dash-functional auctex shell-mode pdf-tools eshell latex company-irony irony company-quickhelp quelpa-use-package helm-projectile xclip use-package nlinum evil-commentary json-mode projectile evil-surround dtrt-indent 0blayout flycheck auto-org-md magit company-jedi yasnippet-classic-snippets helm-mode-manager seoul256-theme python-mode react-snippets yasnippet-snippets company slime evil))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(safe-local-variable-values '((engine . php)))
  '(scroll-bar-mode nil)
  '(setq ansi-term-color-vector)
  '(tool-bar-mode nil)
+ '(warning-suppress-types '((emacs) (emacs) (emacs)))
  '(which-key-mode t)
  '(xterm-mouse-mode t))
 (custom-set-faces
