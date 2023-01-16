@@ -46,22 +46,24 @@
 
 (defun get-hex-or-term (n)
   "Gets N hex or a term color depending on whether we're using an GUI or not."
-  (cond ((eq n 0)  (if (ui-or-true-color) "#efe6d4"  "black"))
-        ((eq n 1)  (if (ui-or-true-color) "#b96949"  "red"))
-        ((eq n 2)  (if (ui-or-true-color) "#4da083"  "green"))
-        ((eq n 3)  (if (ui-or-true-color) "#9e95a7"  "yellow"))
-        ((eq n 4)  (if (ui-or-true-color) "#b1875c"  "blue"))
-        ((eq n 5)  (if (ui-or-true-color) "#bcb221"  "magenta"))
-        ((eq n 6)  (if (ui-or-true-color) "#c4687d"  "cyan"))
-        ((eq n 7)  (if (ui-or-true-color) "#2e2924"  "white"))
-        ((eq n 8)  (if (ui-or-true-color) "#d4ccbc"  "brightblack"))
-        ((eq n 9)  (if (ui-or-true-color) "#973f1c"  "brightred"))
-        ((eq n 10) (if (ui-or-true-color) "#258d69" "brightgreen"))
-        ((eq n 11) (if (ui-or-true-color) "#6e4c90" "brightyellow"))
-        ((eq n 12) (if (ui-or-true-color) "#935e29" "brightblue"))
-        ((eq n 13) (if (ui-or-true-color) "#968d04" "brightmagenta"))
-        ((eq n 14) (if (ui-or-true-color) "#a32e49" "brightcyan"))
-        ((eq n 15) (if (ui-or-true-color) "#010101" "brightwhite"))))
+  (cond ((eq n 0)  (if (ui-or-true-color) "#241f0f"  "black"))
+        ((eq n 1)  (if (ui-or-true-color) "#A5503C"  "red"))
+        ((eq n 2)  (if (ui-or-true-color) "#7B7C4C"  "green"))
+        ((eq n 3)  (if (ui-or-true-color) "#DAA961"  "yellow"))
+        ((eq n 4)  (if (ui-or-true-color) "#594443"  "blue"))
+        ((eq n 5)  (if (ui-or-true-color) "#CBAB88"  "magenta"))
+        ((eq n 6)  (if (ui-or-true-color) "#A05F50"  "cyan"))
+        ((eq n 7)  (if (ui-or-true-color) "#f5f0c2"  "white"))
+        ((eq n 8)  (if (ui-or-true-color) "#453b1c"  "brightblack"))
+        ((eq n 9)  (if (ui-or-true-color) "#e55e3f"  "brightred"))
+        ((eq n 10) (if (ui-or-true-color) "#acae55" "brightgreen"))
+        ((eq n 11) (if (ui-or-true-color) "#ffdf69" "brightyellow"))
+        ((eq n 12) (if (ui-or-true-color) "#7d4f4d" "brightblue"))
+        ((eq n 13) (if (ui-or-true-color) "#ffdf9a" "brightmagenta"))
+        ((eq n 14) (if (ui-or-true-color) "#df7158" "brightcyan"))
+        ((eq n 15) (if (ui-or-true-color) "#ffffe1" "brightwhite"))
+		((eq n 16) (if (ui-or-true-color) "#898b44" "brightcyan"))
+		((eq n 17) (if (ui-or-true-color) "#5e5f2e" "cyan"))))
 
 (defun create-wpgtk-theme (variant theme-name)
   (let ((class '((class color) (min-colors 16)))
@@ -77,7 +79,7 @@
         (builtin         (get-hex-or-term 13))
         (keyword         (get-hex-or-term 12))
         (const           (get-hex-or-term 14))
-        (comment         (get-hex-or-term 2))
+        (comment         (get-hex-or-term 3))
         (comment-bg      (get-hex-or-term 0))
         (func            (get-hex-or-term 13))
         (str             (get-hex-or-term 11))
@@ -142,7 +144,7 @@
      `(secondary-selection ((,class (:background ,bg3))))
      `(show-paren-match ((,class (:background ,active2))))
      `(success ((,class (:foreground ,suc))))
-     `(vertical-border ((,class (:foreground ,white :background, bg2))))
+     `(vertical-border ((,class (:foreground ,bg1 :background, bg2))))
      `(warning ((,class (:foreground ,war ))))
 
 ;;;;; anzu-mode
@@ -313,6 +315,9 @@
      `(helm-swoop-target-line-block-face ((,class (:foreground ,base :background ,highlight))))
      `(helm-swoop-target-line-face ((,class (:foreground ,base :background ,highlight))))
      `(helm-swoop-target-word-face ((,class (:foreground ,bg1 :background ,suc))))
+
+;;;;; ivy
+     `(ivy-current-match ((,class (:foreground ,bg1 :background ,highlight))))
 
 ;;;;; ido
      `(ido-first-match ((,class (:foreground ,comp :bold t))))

@@ -9,6 +9,7 @@
   :init
   (column-number-mode 1)
   (show-paren-mode 1)
+  (electric-pair-mode 1)
   (menu-bar-mode -1)
   (toggle-tool-bar-mode-from-frame -1)
   (winner-mode 1)
@@ -16,7 +17,7 @@
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   (setenv "SHELL" "/usr/bin/bash")
   (load-theme 'wpgtk t)
-  (add-to-list 'default-frame-alist '(font . "Sf Mono-10"))
+  (add-to-list 'default-frame-alist '(font . "sf Mono-10"))
   (setq-default ispell-local-dictionary-alist
 				'(("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
 				  ("en_EN" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
@@ -32,6 +33,7 @@
    backup-by-copying t
    auto-save-default nil
    create-lockfiles nil
+   dired-listing-switches "-ahl"
    inhibit-startup-message t
    tab-width 4
    blink-matching-paren nil
@@ -40,6 +42,7 @@
    ispell-dictionary "es_ES"
    help-window-select t))
 
+(use-package rainbow-mode)
 (use-package edit-indirect)
 (use-package multi-line
   :after evil
@@ -55,6 +58,7 @@
 			  ("<f7>" . projectile-run-vterm)
 			  ("C-c p" . projectile-command-map))
   :config
+  (setq projectile-completion-system 'ivy)
   (setq projectile-switch-project-action 'projectile-dired))
 
 (use-package magit
@@ -118,4 +122,6 @@
   :bind (:map global-map
 			  ("C-x o" . ace-window)))
 
+(use-package exec-path-from-shell
+  :config (exec-path-from-shell-initialize))
 ;;; emacs.el ends here
