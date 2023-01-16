@@ -64,10 +64,7 @@
    "r" 'reload-wpgtk
    "k" 'kill-buffer
    "p" 'projectile-switch-project
-   "h" 'evil-window-left
-   "j" 'evil-window-down
-   "k" 'evil-window-up
-   "l" 'evil-window-right
+   "l" 'magit-log-buffer-file
    "gt" 'other-frame
    "ws" 'evil-window-split
    "wv" 'evil-window-vsplit))
