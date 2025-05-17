@@ -3,6 +3,11 @@
 ;;; File to configure EVIL packages related
 ;;; features
 ;;; Code:
+(defun my/toggle-window-size-fixed ()
+  "Toggle the `window-size-locked' variable between nil and t."
+  (interactive)
+  (setq window-size-fixed (if window-size-fixed nil t))
+  (message "Window size is now %s" (if window-size-fixed "fixed" "flexible")))
 
 (use-package evil
   :init
@@ -60,13 +65,17 @@
   (global-evil-leader-mode)
   (setq evil-leader/in-all-states t)
   (evil-leader/set-key
-   "b" 'switch-to-buffer
-   "r" 'reload-wpgtk
-   "k" 'kill-buffer
-   "p" 'projectile-switch-project
-   "l" 'magit-log-buffer-file
-   "gt" 'other-frame
-   "ws" 'evil-window-split
-   "wv" 'evil-window-vsplit))
+    "b" 'switch-to-buffer
+    "r" 'reload-wpgtk
+    "k" 'kill-buffer
+    "p" 'projectile-switch-project
+    "'" 'counsel-evil-marks
+    "l" 'magit-log-buffer-file
+    "gt" 'other-frame
+    "we" 'web-mode-set-engine
+    "ws" 'evil-window-split
+    "wv" 'evil-window-vsplit
+    "wl" 'my/toggle-window-size-fixed
+    "s" 'string-inflection-cycle))
 
 ;;; evil.el ends here

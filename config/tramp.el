@@ -4,7 +4,6 @@
 ;;; features
 ;;; Code:
 
-(use-package docker-tramp)
 (use-package tramp
   :ensure nil
   :defer 5

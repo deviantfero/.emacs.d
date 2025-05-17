@@ -17,6 +17,8 @@
 
 (use-package dap-mode
   :after lsp-mode
+  :hook
+  (lsp-diagnostics-mode . (lambda () (setq-default lsp-diagnostics-attributes nil)))
   :config (dap-auto-configure-mode))
 
 ;;; lsp.el ends here

@@ -2,7 +2,6 @@
 ;;; Commentary:
 ;;; File to define custom utility functions that affect EMACS globaly
 ;;; Code:
-
 (defun sudo-write ()
   "Use TRAMP to open a file with write access using sudo."
   (interactive)
@@ -24,5 +23,4 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	  (setq deactivate-mark  t)
 	(when (get-buffer "*Completions*")
 	  (delete-windows-on "*Completions*")) (abort-recursive-edit)))
-
 ;;; utils.el ends here

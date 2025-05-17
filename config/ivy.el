@@ -21,7 +21,6 @@
             :action 'switch-to-buffer))
 
 (use-package ivy
-  :after evil
   :config
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
@@ -35,21 +34,8 @@
         ("C-x C-f" . counsel-find-file)
         ("C-x t" . counsel-vterm)
         ("C-g" . counsel-projectile-find-file)
-        ("M-k" . counsel-projectile-rg)
+        ("C-x /" . counsel-projectile-rg)
         ("C-x B" . ivy-switch-buffer-other-window)))
-
-(defun my-ivy-posframe-get-size ()
-  "Set the ivy-posframe size according to the current frame."
-  (let ((height (or ivy-posframe-height (or ivy-height 10)))
-        (width (min (or ivy-posframe-width 200) (round (* .75 (frame-width))))))
-    (list :height height :width width :min-height height :min-width width)))
-
-(use-package ivy-posframe
-  :after ivy
-  :init
-  (ivy-posframe-mode 1)
-  :config
-  (setq ivy-posframe-size-function 'my-ivy-posframe-get-size))
 
 (use-package counsel
   :after ivy)
@@ -63,7 +49,7 @@
   (counsel-edit-mode-setup-ivy))
 
 (use-package ivy-rich
-  :after ivy
+  :after ivy counsel-projectile
   :custom
   (ivy-rich-mode 1)
   (ivy-virtual-abbreviate 'full
