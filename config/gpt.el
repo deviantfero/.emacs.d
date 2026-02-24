@@ -7,14 +7,13 @@
   :after
   evil
   :config
-  (setq gptel-default-mode 'org-mode)
-  (setq-default gptel-model "llama3"
-                gptel-backend (gptel-make-ollama "Ollama"
-                                :host "localhost:11434"
-                                :models '("deepseek-coder-v2")
-                                :stream t))
+  (setq gptel-default-mode 'org-mode
+        gptel-model 'qwen3-coder:30b
+        gptel-backend (gptel-make-ollama "Ollama"
+                        :host "localhost:11434"
+                        :models '(qwen3-coder:30b)
+                        :stream t))
   :bind
   (:map global-map
         ("C-c g" . gptel-send)))
-
 ;;; gpt.el ends here
