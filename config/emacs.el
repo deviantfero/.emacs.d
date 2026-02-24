@@ -138,7 +138,8 @@
 
 (use-package ace-window
   :config
-  (setq aw-scope 'frame)
+  (setq aw-scope 'frame
+        aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   :bind (:map global-map
 	          ("C-x o" . ace-window)))
 
