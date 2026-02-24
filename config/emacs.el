@@ -116,7 +116,9 @@
 (use-package eterm-256color)
 
 (use-package which-key
-  :config (which-key-mode 1))
+  :config (which-key-mode 1)
+  (setq which-key-idle-delay 0.5
+        which-key-sort-order 'which-key-key-order-alpha))
 
 (use-package smartparens
   :config
