@@ -94,6 +94,8 @@
   :config
   (setf (alist-get 'ruby-mode apheleia-mode-alist)
 		'(rubocop))
+  (setf (alist-get 'python-mode apheleia-mode-alist)
+		'(ruff))
   (apheleia-global-mode))
 
 (use-package scss-mode
@@ -400,27 +402,21 @@
  '(org-agenda-files '("/home/fernando/org/todo.org"))
  '(org-latex-compiler "xelatex")
  '(package-selected-packages
-   '(add-node-modules-path anaconda-mode apheleia auctex cargo
-						   clojure-mode cmake-mode company-irony
-						   counsel-edit-mode counsel-projectile
-						   csv-mode dockerfile-mode dtrt-indent
-						   dumb-jump edit-indirect editorconfig
-						   elixir-mode eterm-256color evil-collection
-						   evil-commentary evil-leader evil-matchit
-						   evil-org evil-surround evil-visualstar
-						   exec-path-from-shell flutter flycheck-irony
-						   flycheck-pkg-config flycheck-rust
-						   gdscript-mode go-mode gptel graphql-mode
-						   graphviz-dot-mode iter2 ivy-rich lsp-dart
-						   lsp-ui magit meson-mode minions multi-line
-						   nvm org-bullets org-tree-slide ox-pandoc
-						   pdf-tools projectile-rails python-black
-						   python-mode pyvenv rainbow-mode rubocop
-						   rust-mode rvm scss-mode smartparens
-						   string-inflection tide tree-sitter-langs
-						   treesit-auto undo-tree vterm web-mode
-						   which-key xclip yaml-mode
-						   yasnippet-classic-snippets))
+   '(0x0 add-node-modules-path anaconda-mode apheleia auctex cargo
+		 clojure-mode cmake-mode company-irony counsel-edit-mode
+		 counsel-projectile csv-mode dockerfile-mode dtrt-indent
+		 dumb-jump edit-indirect editorconfig elixir-mode
+		 eterm-256color evil-collection evil-commentary evil-leader
+		 evil-matchit evil-org evil-surround evil-visualstar
+		 exec-path-from-shell flutter flycheck-irony
+		 flycheck-pkg-config flycheck-rust gdscript-mode go-mode gptel
+		 graphql-mode graphviz-dot-mode iter2 ivy-rich lsp-dart lsp-ui
+		 magit meson-mode minions multi-line nvm org-bullets
+		 org-tree-slide ox-pandoc pdf-tools projectile-rails
+		 python-black python-mode pyvenv rainbow-mode rubocop
+		 rust-mode rvm scss-mode smartparens string-inflection tide
+		 tree-sitter-langs treesit-auto undo-tree vterm web-mode
+		 which-key xclip yaml-mode yasnippet-classic-snippets))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(safe-local-variable-values '((engine . php)))
  '(scroll-bar-mode nil)

@@ -1,5 +1,5 @@
 (toggle-tool-bar-mode-from-frame -1)
-(add-to-list 'default-frame-alist '(font . "iosevka 10"))
+(add-to-list 'default-frame-alist '(font . "jetbrains mono 9"))
 (add-to-list 'default-frame-alist '(internal-border-width . 8))
 (menu-bar-mode -1)
 

@@ -6,7 +6,8 @@
 (use-package lsp-mode
   :commands lsp
   :config
-  (setq lsp-headerline-breadcrumb-enable nil))
+  (setq lsp-headerline-breadcrumb-enable nil)
+  (add-to-list 'lsp-disabled-clients '(python-mode . ty-ls)))
 
 (use-package lsp-ui
   :hook
