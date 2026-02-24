@@ -63,19 +63,46 @@
 (use-package evil-leader
   :config
   (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>")
   (setq evil-leader/in-all-states t)
+
+  ;; Top Level
   (evil-leader/set-key
     "b" 'switch-to-buffer
     "r" 'reload-wpgtk
     "k" 'kill-buffer
-    "p" 'projectile-switch-project
     "'" 'counsel-evil-marks
+    "t" 'counsel-vterm
     "l" 'magit-log-buffer-file
-    "gt" 'other-frame
-    "we" 'web-mode-set-engine
-    "ws" 'evil-window-split
-    "wv" 'evil-window-vsplit
-    "wl" 'my/toggle-window-size-fixed
-    "s" 'string-inflection-cycle))
+    "s" 'string-inflection-cycle)
+
+  ;; Window Operations
+  (evil-leader/set-key
+    "g t" 'other-frame
+    "w e" 'web-mode-set-engine
+    "w s" 'evil-window-split
+    "w v" 'evil-window-vsplit
+    "w l" 'my/toggle-window-size-fixed)
+
+  ;; Git operations
+  (evil-leader/set-key
+    "g s" 'magit-status
+    "g l" 'magit-log-buffer-file
+    "g b" 'magit-blame
+    "g f" 'magit-find-file)
+
+  ;; Application launches
+  (evil-leader/set-key
+    "a t" 'vterm
+    "a d" 'dired)
+
+  ;; Project operations
+  (evil-leader/set-key
+    "p p" 'projectile-switch-project
+    "p f" 'projectile-find-file
+    "p g" 'counsel-projectile-rg
+    "p t" 'projectile-run-vterm
+    "p r" 'projectile-replace
+    "p c" 'projectile-compile-project))
 
 ;;; evil.el ends here
