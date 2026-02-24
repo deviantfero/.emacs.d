@@ -24,7 +24,11 @@
   :config
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
-  (ivy-mode 1)
+  :init
+  (ivy-mode 1))
+
+(use-package counsel
+  :config (counsel-mode 1)
   :bind
   (:map evil-normal-state-map
         ("C-f" . counsel-find-file))
@@ -36,9 +40,6 @@
         ("C-g" . counsel-projectile-find-file)
         ("C-x /" . counsel-projectile-rg)
         ("C-x B" . ivy-switch-buffer-other-window)))
-
-(use-package counsel
-  :after ivy)
 
 (use-package counsel-projectile
   :after ivy)
@@ -56,16 +57,16 @@
                           ivy-rich-switch-buffer-align-virtual-buffer t
                           ivy-rich-path-style 'abbrev))
 
-  ;; (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-  ;; (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-  ;; (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
-  ;; (global-set-key (kbd "<f1> l") 'counsel-find-library)
-  ;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-  ;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-  ;; (global-set-key (kbd "C-c g") 'counsel-git)
-  ;; (global-set-key (kbd "C-c j") 'counsel-git-grep)
-  ;; (global-set-key (kbd "C-c k") 'counsel-ag)
-  ;; (global-set-key (kbd "C-x l") 'counsel-locate)
-  ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox))
+;; (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+;; (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+;; (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
+;; (global-set-key (kbd "<f1> l") 'counsel-find-library)
+;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+;; (global-set-key (kbd "C-c g") 'counsel-git)
+;; (global-set-key (kbd "C-c j") 'counsel-git-grep)
+;; (global-set-key (kbd "C-c k") 'counsel-ag)
+;; (global-set-key (kbd "C-x l") 'counsel-locate)
+;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox))
 
 ;;; ivy.el ends here
