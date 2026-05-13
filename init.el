@@ -99,8 +99,11 @@
   (apheleia-global-mode))
 
 (use-package scss-mode
+  :mode ("\\.scss\\'" "\\.sass\\'")
   :config
-  (setq scss-compile-at-save nil))
+  (setq scss-compile-at-save nil)
+  (setq-default flymake-allowed-file-name-masks nil
+				flymake-err-line-patterns nil))
 
 ;;; GoLang
 (use-package go-mode
@@ -414,9 +417,10 @@
 		 magit meson-mode minions multi-line nvm org-bullets
 		 org-tree-slide ox-pandoc pdf-tools projectile-rails
 		 python-black python-mode pyvenv rainbow-mode rubocop
-		 rust-mode rvm scss-mode smartparens string-inflection tide
-		 tree-sitter-langs treesit-auto undo-tree vterm web-mode
-		 which-key xclip yaml-mode yasnippet-classic-snippets))
+		 rust-mode rvm scss-mode scss-ts-mode smartparens
+		 string-inflection tide tree-sitter-langs treesit-auto
+		 undo-tree vterm web-mode which-key xclip yaml-mode
+		 yasnippet-classic-snippets))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(safe-local-variable-values '((engine . php)))
  '(scroll-bar-mode nil)

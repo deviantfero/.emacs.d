@@ -45,7 +45,7 @@
   :after ivy)
 
 (use-package counsel-edit-mode
-  :after ivy
+  :after ivy counsel-projectile
   :config
   (counsel-edit-mode-setup-ivy))
 
