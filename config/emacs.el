@@ -147,4 +147,9 @@
   :config (exec-path-from-shell-initialize))
 
 (use-package string-inflection)
+
+;;; use with firefox's Ghosttext
+(use-package atomic-chrome
+  :config (atomic-chrome-start-server))
+
 ;;; emacs.el ends here

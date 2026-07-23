@@ -201,29 +201,6 @@
 		  (company-dabbrev :with company-yasnippet)))
   (global-company-mode 1))
 
-;;; Org
-(use-package org
-  :ensure nil
-  :mode ("\\.org\\'" . org-mode)
-  :bind (("C-c a" . org-agenda))
-  :hook (org-mode . visual-line-mode)
-  :config
-  (setq org-image-actual-width nil)
-  (setq org-agenda-files
-		(directory-files-recursively "~/org/" "\.org$"))
-  (org-babel-do-load-languages
-   'org-babel-load-languages '((shell . t)
-							   (python . t)
-							   (ruby . t)
-							   (C . t)
-							   (dot . t)))
-  (add-to-list 'org-export-backends 'taskjuggler))
-
-(use-package org-tree-slide)
-
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode))
-
 ;;; Note taking
 (use-package pdf-tools)
 
@@ -405,22 +382,24 @@
  '(org-agenda-files '("/home/fernando/org/todo.org"))
  '(org-latex-compiler "xelatex")
  '(package-selected-packages
-   '(0x0 add-node-modules-path anaconda-mode apheleia auctex cargo
-		 clojure-mode cmake-mode company-irony counsel-edit-mode
-		 counsel-projectile csv-mode dockerfile-mode dtrt-indent
-		 dumb-jump edit-indirect editorconfig elixir-mode
+   '(0x0 add-node-modules-path anaconda-mode apheleia atomic-chrome
+		 auctex cargo clojure-mode cmake-mode company-irony
+		 counsel-edit-mode counsel-projectile csv-mode dockerfile-mode
+		 dtrt-indent dumb-jump edit-indirect editorconfig elixir-mode
 		 eterm-256color evil-collection evil-commentary evil-leader
 		 evil-matchit evil-org evil-surround evil-visualstar
 		 exec-path-from-shell flutter flycheck-irony
 		 flycheck-pkg-config flycheck-rust gdscript-mode go-mode gptel
-		 graphql-mode graphviz-dot-mode iter2 ivy-rich lsp-dart lsp-ui
-		 magit meson-mode minions multi-line nvm org-bullets
-		 org-tree-slide ox-pandoc pdf-tools projectile-rails
-		 python-black python-mode pyvenv rainbow-mode rubocop
-		 rust-mode rvm scss-mode scss-ts-mode smartparens
+		 graphql-mode graphviz-dot-mode haml-mode iter2 ivy-rich
+		 lsp-dart lsp-ui magit meson-mode minions multi-line nvm
+		 org-bullets org-transclusion org-tree-slide ox-pandoc
+		 pdf-tools projectile-rails python-black python-mode pyvenv
+		 rainbow-mode rubocop rust-mode rvm scss-mode smartparens
 		 string-inflection tide tree-sitter-langs treesit-auto
 		 undo-tree vterm web-mode which-key xclip yaml-mode
 		 yasnippet-classic-snippets))
+ '(package-vc-selected-packages
+   '((anaconda-mode :url "https://github.com/deviantfero/anaconda-mode")))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
  '(safe-local-variable-values '((engine . php)))
  '(scroll-bar-mode nil)
